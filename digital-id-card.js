@@ -1,3 +1,4 @@
+"use strict";
 (function($){
   $.fn.digitalIdCard = function(methodOrOptions){
   	if ( methods[methodOrOptions] ) {
@@ -8,74 +9,56 @@
 		} else {
 			$.error( "Method " +  methodOrOptions + " does not exist on jQuery.digitalIdCard" );
   	}
-
   }
 
   var methods = {
-  	init : function(options) {
-
-      var defaults = {
-        height : "640px",
-        width : "360px"
-      };
+    init : function(options) {
+      var defaults = {};
 
       var settings = $.extend({}, defaults, options); 			
 
-     	var Content = _createContent();	
+      var contentText = _createContent();	
 
-      $(this).html(Content);
+      $(this).html(contentText);
 
-    	return this;
-		},
+      return this;
+    },
+    show : function( ) {},
+    hide : function( ) {},
+    onUpdate : function() {}
+  }
 
-		show : function( ) {},
-		hide : function( ) {},
-		onUpdate : function() {}
-	}
+  function _toJson(){
 
-	function _toJson()
-	{
+  }
 
-	}
+  function _createContent(){
+    var content = '<div id="id-card-container">';
 
-	function _createContent()
-	{
-      var Content = '<div id="id-card-container">'
+    // Header
+    content += '<div id="id-card-header">';
+    content += '</div>';	// id-card-header
 
-      // Header
-      Content += '<div id="id-card-header">'
+    // Content
+    content += '<div id="id-card-content">';
 
-     	Content += '</div>';	// id-card-header
+    // Image
+    content += '<div id="id-card-image">';
+    content += '</div>';	// id-card-image
 
-      // Content
-      Content += '<div id="id-card-content">'
+    // Description
+    content += '<div id="id-card-desciption">';
+    content += '</div>';	// id-card-description
 
-      // Image
-      Content += '<div id="id-card-image">'
+    content += '</div>';	// id-card-content
 
-     	Content += '</div>';	// id-card-image
+    // Footer
+    content += '<div id="id-card-footer">';
+    content += '</div>';	// id-card-footer
 
-      // Description
-      Content += '<div id="id-card-desciption">'
+    content += '</div>';	// id-card-container
 
-     	Content += '</div>';	// id-card-description
-
-
-     	Content += '</div>';	// id-card-content
-
-      // Footer
-      Content += '<div id="id-card-footer">'
-
-     	Content += '</div>';	// id-card-footer
-
-     	Content += '</div>';	// id-card-container
-
-  		var Content = $(Content);
-
-
-  		return Content;
-	}
-
-
+    return content;
+  }
 
 })(jQuery);
