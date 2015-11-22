@@ -42,13 +42,32 @@
     // Content
     content += '<div id="id-card-content">';
 
-    // Image
-    content += '<div id="id-card-image">';
-    content += '</div>';	// id-card-image
+    content += '<div id="id-card-content-left">';
+
+
+    // Image Container
+    content += '<div id="id-card-image-container">';
+
+    content += '</div>';	// id-card-image-container
+
+    content += '</div>';  // id-card-content-left
+
 
     // Description
-    content += '<div id="id-card-desciption">';
-    content += '</div>';	// id-card-description
+    content += '<div id="id-card-content-right">';
+
+    content += '<div id="id-card-desciption-container">';
+
+    content += '<div id="id-card-name-container">';
+    content += '<label id="id-card-name">John Do</label>';
+    content += '</div>';  // id-card-name-container
+
+    content += '<label id="id-card-name">John Do</label>';
+
+
+    content += '</div>';	// id-card-description-container
+    content += '</div>';  // id-card-content-right
+
 
     content += '</div>';	// id-card-content
 
