@@ -59,10 +59,9 @@
     content += '<div id="id-card-desciption-container">';
 
     content += '<div id="id-card-name-container">';
-    content += '<label id="id-card-name">John Do</label>';
+    content += '<label id="id-card-name" class="id-card-desciption-label">John Do</label>';
+    content += '<label id="id-card-name" class="id-card-desciption-label-text">John Do</label>';
     content += '</div>';  // id-card-name-container
-
-    content += '<label id="id-card-name">John Do</label>';
 
 
     content += '</div>';	// id-card-description-container
@@ -79,5 +78,7 @@
 
     return content;
   }
+
+  // Editable lable: example: http://jsfiddle.net/jasuC/
 
 })(jQuery);
