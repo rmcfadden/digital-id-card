@@ -54,14 +54,45 @@
 
 
     // Description
+    var leftColumnWidth = "75px";
+    var breakHeight = "25px";
+
     content += '<div id="id-card-content-right">';
 
     content += '<div id="id-card-desciption-container">';
 
     content += '<div id="id-card-name-container">';
-    content += '<label id="id-card-name" class="id-card-desciption-label">John Do</label>';
-    content += '<label id="id-card-name" class="id-card-desciption-label-text">John Do</label>';
+    content += '<label id="id-card-name-label" class="id-card-desciption-label" style="display:inline-block; width:' + leftColumnWidth + '">name:</label>';
+    content += '<label id="id-card-name" class="id-card-desciption-label-text">Ryan Patrick McFadden</label>';
     content += '</div>';  // id-card-name-container
+
+    content += '<div id="id-card-address-container" style="margin-top:' + breakHeight + '">';
+    content += '<label id="id-card-addressline1-label" class="id-card-desciption-label" style="display:inline-block; width:' + leftColumnWidth + '">address:</label>';
+    content += '<label id="id-card-addressline1" class="id-card-desciption-label-text">1101 De La Vina St.</label>';
+    content += '<div/>';
+    content += '<label id="id-card-addressline2-label" class="id-card-desciption-label" style="display:inline-block; width:' + leftColumnWidth + '"></label>';
+    content += '<label id="id-card-addressline2" class="id-card-desciption-label-text">Santa Barbara, CA., 93101</label>';
+    content += '<div/>';
+    content += '<label id="id-card-country-label" class="id-card-desciption-label" style="display:inline-block; width:' + leftColumnWidth + '"></label>';
+    content += '<label id="id-card-country" class="id-card-desciption-label-text">United States of America</label>';
+    content += '</div>';  // id-card-name-address
+
+    content += '<div id="id-card-address-container" style="margin-top:' + breakHeight + '">';
+    content += '<label id="id-card-sex-label" class="id-card-desciption-label" style="display:inline-block; width:' + leftColumnWidth + '">sex:</label>';
+    content += '<label id="id-card-sex" class="id-card-desciption-label-text" style="display:inline-block; width:' + leftColumnWidth + '">Male</label>';
+    content += '<label id="id-card-height-label" class="id-card-desciption-label" style="display:inline-block; width:' + leftColumnWidth + '">Height:</label>';
+    content += '<label id="id-card-height" class="id-card-desciption-label-text" style="display:inline-block; width:' + leftColumnWidth + '">6 ft.</label>';
+    content += '<div/>';
+
+    content += '<label id="id-card-sex-label" class="id-card-desciption-label" style="display:inline-block; width:' + leftColumnWidth + '">weight:</label>';
+    content += '<label id="id-card-sex" class="id-card-desciption-label-text" style="display:inline-block; width:' + leftColumnWidth + '">weight</label>';
+    content += '<label id="id-card-eye-label" class="id-card-desciption-label" style="display:inline-block; width:' + leftColumnWidth + '">eyes:</label>';
+    content += '<label id="id-card-eye" class="id-card-desciption-label-text" style="display:inline-block; width:' + leftColumnWidth + '">blue</label>';
+
+
+
+    content += '<div/>'; // id-card-name-physical
+
 
 
     content += '</div>';	// id-card-description-container

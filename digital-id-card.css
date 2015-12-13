@@ -25,7 +25,7 @@ body {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   transition: all 0.2s ease-in-out;
   width: 640px;
-  height: 480px;
+  height: 440px;
   background: #ffffff;
   display: block;
   position: relative;
@@ -39,7 +39,7 @@ body {
   width: 260px;
   height: 260px;
   display: block;
-  background-color: #eeeded;
+  background-color: #9e9e9e;
   background-image: url(assets/ic_person_white_24px.svg);
   background-size: 260px 260px;
 }
@@ -59,15 +59,16 @@ body {
 }
 .id-card-desciption-label {
   font-family: 'Roboto', sans-serif;
-  font-weight: bold;
-  font-size: 20px;
+  font-weight: normal;
+  font-size: 14px;
   line-height: 20px;
   color: #9e9e9e;
 }
 .id-card-desciption-label-text {
   font-family: 'Roboto', sans-serif;
-  font-weight: normal;
-  font-size: 14px;
+  font-weight: bold;
+  font-size: 18px;
   line-height: 20px;
   color: #9e9e9e;
+  margin-left: 5px;
 }

@@ -52,7 +52,7 @@ body
 #id-card-container{
 	.materials-container-1;
   width: 640px;
-  height: 480px;
+  height: 440px;
   background: @card-color;
   display: block;
   position: relative;
@@ -68,7 +68,7 @@ body
   width: 260px;
   height: 260px; 
   display: block; 
-  background-color: @background-color;
+  background-color: @font-color;
   background-image: url(assets/ic_person_white_24px.svg);
   background-size: 260px 260px;
 }
@@ -92,12 +92,13 @@ body
   
 .id-card-desciption-label
 {
-  #Fonts > .Roboto(@weight: bold, @size: 20px);
+  #Fonts > .Roboto();
   color: @font-color;
 }
 
 .id-card-desciption-label-text
 {
-  #Fonts > .Roboto();
+  #Fonts > .Roboto(@weight: bold, @size: 18px);
   color: @font-color;
+  margin-left:5px;
 }
