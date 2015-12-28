@@ -1,23 +1,22 @@
+<!DOCTYPE html>
 <html>
   <head>
   	<link rel="stylesheet" type="text/css" href="digital-id-card.css" >  
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
     <script type="text/javascript" src="digital-id-card.js"></script>	
-  </head>
 
+    <script>
+      $( document ).ready(function() {
+        $("#id-card").digitalIdCard();
+
+        console.log('JSON text' +  $("#id-card").digitalIdCard('text'));
+      }); 
+    </script>
+
+  </head>
 
   <body>
   	<div id="id-card"></div>  	
   </body>
-
-<script>
-  $( document ).ready(function() {
-    $("#id-card").digitalIdCard();
-
-    console.log('JSON text' +  $("#id-card").digitalIdCard('text'));
-  });
- 
-</script>
-
 
 </html>

@@ -20,9 +20,14 @@
       var contentText = _createContent();	
       $(this).html(contentText);
 
-      // TODO: finis this up
-      _makeLabelEditable('id-card-name');
-      _makeLabelEditable('id-card-addressline1');
+    _makeLabelEditable('id-card-name');
+    _makeLabelEditable('id-card-addressline1');
+    _makeLabelEditable('id-card-addressline2');
+    _makeLabelEditable('id-card-country');
+    _makeLabelEditable('id-card-sex');
+    _makeLabelEditable('id-card-height');
+    _makeLabelEditable('id-card-weight');
+    _makeLabelEditable('id-card-eyes');
 
       return this;
     },
@@ -71,23 +76,56 @@
     return $('#id-card-addressline2').text();
   }
 
+
   function _getcountry(){
     return $('#id-card-country').text();
   }
 
+
   function _makeLabelEditable(id){
-    $('#' + id).click(function() {
-      $('#' + id).css('display', 'none');
-      $('#' + id  +'-entry').val($('#' + id).text())
-      $('#' + id  +'-entry').css('display', '')
-      $('#' + id  +'-entry').focus();
+
+    var idObj = $('#' + id);
+    var idObjEdit = $('#' + id +'-edit');
+
+    idObj.click(function() {
+        idObj.css('display', 'none');
+        idObjEdit.val(idObj.text())
+        idObjEdit.css('display', '')
+        idObjEdit.focus();
     });
 
-    $('#' + id + '-entry').blur(function() {
-      $('#' + id + '-entry').css('display', 'none');
-      $('#' + id).text($('#' + id + '-entry').val());
-      $('#' + id).css('display', '');
+    idObjEdit.blur(function() {
+        idObjEdit.css('display', 'none');
+        idObj.text(idObjEdit.val());
+        idObj.css('display', 'inline-block');
     });
+
+    idObjEdit.keyup(function(event){
+        if(event.keyCode == 13){
+            idObjEdit.css('display', 'none');
+            idObj.text(idObjEdit.val());
+            idObj.css('display', 'inline-block');
+        }
+    });
+
+  }
+
+
+  function _getLabelText(name, text, width){
+    return '<label id="id-card-' + name + '-label" class="id-card-desciption-label" style="display:inline-block; width:' + width + '">' + text + '</label>';
+  }
+
+
+  function _getFieldTextBoxEdit(name, text, width){
+
+    var widthText = ''
+    if(width){
+        widthText = width;
+    }
+
+    var returnText = '<label id="id-card-' + name + '" class="id-card-desciption-label-text" style="display:inline-block; width:' + widthText + '">' + text + '</label>'
+    returnText += '<input id="id-card-' + name + '-edit" name="id-card-' + name + '" style="display:none; width:' + widthText + '"></input>';
+    return returnText;
   }
 
 
@@ -121,31 +159,31 @@
     content += '<div id="id-card-desciption-container">';
 
     content += '<div id="id-card-name-container">';
-    content += '<label id="id-card-name-label" class="id-card-desciption-label" style="display:inline-block; width:' + leftColumnWidth + '">name:</label>';
-    content += '<label id="id-card-name" class="id-card-desciption-label-text">Ryan Patrick McFadden</label><input id="id-card-name-entry" name="id-card-name" style="display:none;"></input>';
+    content += _getLabelText('name', 'name:', leftColumnWidth);
+    content += _getFieldTextBoxEdit('name', 'Ryan Patrick McFadden');
     content += '</div>';  // id-card-name-container
 
     content += '<div id="id-card-address-container" style="margin-top:' + breakHeight + '">';
-    content += '<label id="id-card-addressline1-label" class="id-card-desciption-label" style="display:inline-block; width:' + leftColumnWidth + '">address:</label>';
-    content += '<label id="id-card-addressline1" class="id-card-desciption-label-text">1101 De La Vina St.</label><input id="id-card-addressline1-entry" name="id-card-addressline1" style="display:none;"></input>';
-    content += '<div/>';
-    content += '<label id="id-card-addressline2-label" class="id-card-desciption-label" style="display:inline-block; width:' + leftColumnWidth + '"></label>';
-    content += '<label id="id-card-addressline2" class="id-card-desciption-label-text">Santa Barbara, CA., 93101</label>';
-    content += '<div/>';
-    content += '<label id="id-card-country-label" class="id-card-desciption-label" style="display:inline-block; width:' + leftColumnWidth + '"></label>';
-    content += '<label id="id-card-country" class="id-card-desciption-label-text">United States of America</label>';
-    content += '</div>';  // id-card-name-address
+    content += _getLabelText('addressline1', 'address:', leftColumnWidth);
+    content += _getFieldTextBoxEdit('addressline1', '1101 De La Vina St.');
+    content += '<div></div>';
+    content += _getLabelText('addressline2', '', leftColumnWidth);
+    content += _getFieldTextBoxEdit('addressline2', 'Santa Barbara, CA. 93101');
+    content += '<div></div>';
+    content += _getLabelText('country', '', leftColumnWidth);
+    content += _getFieldTextBoxEdit('country', 'United States Of America');
+    content += '<div></div>';  // id-card-name-address
 
     content += '<div id="id-card-address-container" style="margin-top:' + breakHeight + '">';
-    content += '<label id="id-card-sex-label" class="id-card-desciption-label" style="display:inline-block; width:' + leftColumnWidth + '">sex:</label>';
-    content += '<label id="id-card-sex" class="id-card-desciption-label-text" style="display:inline-block; width:' + leftColumnWidth + '">Male</label>';
-    content += '<label id="id-card-height-label" class="id-card-desciption-label" style="display:inline-block; width:' + leftColumnWidth + '">Height:</label>';
-    content += '<label id="id-card-height" class="id-card-desciption-label-text" style="display:inline-block; width:' + leftColumnWidth + '">6 ft.</label>';
+    content += _getLabelText('sex', 'sex:', leftColumnWidth);
+    content += _getFieldTextBoxEdit('sex', 'Male', leftColumnWidth);
+    content += _getLabelText('height', 'height:', leftColumnWidth);
+    content += _getFieldTextBoxEdit('height', '6 ft.', leftColumnWidth);
     content += '<div/>';
-    content += '<label id="id-card-sex-label" class="id-card-desciption-label" style="display:inline-block; width:' + leftColumnWidth + '">weight:</label>';
-    content += '<label id="id-card-sex" class="id-card-desciption-label-text" style="display:inline-block; width:' + leftColumnWidth + '">weight</label>';
-    content += '<label id="id-card-eye-label" class="id-card-desciption-label" style="display:inline-block; width:' + leftColumnWidth + '">eyes:</label>';
-    content += '<label id="id-card-eye" class="id-card-desciption-label-text" style="display:inline-block; width:' + leftColumnWidth + '">blue</label>';
+    content += _getLabelText('weight', 'weight:', leftColumnWidth);
+    content += _getFieldTextBoxEdit('weight', '185 lb.', leftColumnWidth);
+    content += _getLabelText('eyes', 'eyes:', leftColumnWidth);
+    content += _getFieldTextBoxEdit('eyes', 'Blue', leftColumnWidth);
     content += '<div/>'; // id-card-name-physical
 
 
