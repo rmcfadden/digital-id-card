@@ -1,4 +1,5 @@
 "use strict";
+
 (function($){
   $.fn.digitalIdCard = function(methodOrOptions){
   	if ( methods[methodOrOptions] ) {
@@ -20,14 +21,17 @@
       var contentText = _createContent();	
       $(this).html(contentText);
 
-    _makeLabelEditable('id-card-name');
-    _makeLabelEditable('id-card-addressline1');
-    _makeLabelEditable('id-card-addressline2');
-    _makeLabelEditable('id-card-country');
-    _makeLabelEditable('id-card-sex');
-    _makeLabelEditable('id-card-height');
-    _makeLabelEditable('id-card-weight');
-    _makeLabelEditable('id-card-eyes');
+      _makeLabelEditable('id-card-name');
+      _makeLabelEditable('id-card-email');
+      _makeLabelEditable('id-card-addressline1');
+      _makeLabelEditable('id-card-addressline2');
+      _makeLabelEditable('id-card-country');
+      _makeLabelEditable('id-card-sex');
+      _makeLabelEditable('id-card-height');
+      _makeLabelEditable('id-card-weight');
+      _makeLabelEditable('id-card-eyes');
+
+      _enableImageUploader();
 
       return this;
     },
@@ -63,7 +67,6 @@
     return JSON.stringify(json);
   }
 
-
   function _getName(){
     return $('#id-card-name').text();
   }
@@ -76,58 +79,91 @@
     return $('#id-card-addressline2').text();
   }
 
-
   function _getcountry(){
     return $('#id-card-country').text();
   }
 
-
   function _makeLabelEditable(id){
-
     var idObj = $('#' + id);
     var idObjEdit = $('#' + id +'-edit');
+    var idObjEditImage = $('#' + id +'-edit-image');
+
+    idObj.hover(function() {
+      idObjEditImage.addClass('id-card-edit-image');
+    });
+
+    idObj.mouseout(function() {
+      idObjEditImage.removeClass('id-card-edit-image');
+    });
+
 
     idObj.click(function() {
-        idObj.css('display', 'none');
-        idObjEdit.val(idObj.text())
-        idObjEdit.css('display', '')
-        idObjEdit.focus();
+      idObj.css('display', 'none');
+      idObjEdit.val(idObj.text())
+      idObjEdit.css('display', '')
+      idObjEdit.focus();
     });
 
     idObjEdit.blur(function() {
-        idObjEdit.css('display', 'none');
-        idObj.text(idObjEdit.val());
-        idObj.css('display', 'inline-block');
+      idObjEdit.css('display', 'none');
+      idObj.text(idObjEdit.val());
+      idObj.css('display', 'inline-block');
     });
 
     idObjEdit.keyup(function(event){
-        if(event.keyCode == 13){
-            idObjEdit.css('display', 'none');
-            idObj.text(idObjEdit.val());
-            idObj.css('display', 'inline-block');
-        }
+      if(event.keyCode == 13){
+        idObjEdit.css('display', 'none');
+        idObj.text(idObjEdit.val());
+        idObj.css('display', 'inline-block');
+      }
     });
-
   }
-
 
   function _getLabelText(name, text, width){
     return '<label id="id-card-' + name + '-label" class="id-card-desciption-label" style="display:inline-block; width:' + width + '">' + text + '</label>';
   }
 
-
   function _getFieldTextBoxEdit(name, text, width){
 
     var widthText = ''
     if(width){
-        widthText = width;
+      widthText = width;
     }
 
-    var returnText = '<label id="id-card-' + name + '" class="id-card-desciption-label-text" style="display:inline-block; width:' + widthText + '">' + text + '</label>'
+    var returnText = '<label id="id-card-' + name + '" class="id-card-desciption-label-text" style="display:inline-block; width:' + widthText + '">' + text + '</label>';
+    returnText += '<span id="id-card-' + name + '-edit-image"></span>';
     returnText += '<input id="id-card-' + name + '-edit" name="id-card-' + name + '" style="display:none; width:' + widthText + '"></input>';
     return returnText;
   }
 
+  function _enableImageUploader(){
+
+    $("input[id='id-card-image-uploader']").change(function(event){
+        var file = event.target.files[0];
+        _applyPhoto(file); 
+    });
+
+    $('#id-card-image-container').click(function(event){
+         $("input[id='id-card-image-uploader']").click();
+    });
+
+    $('#id-card-image-container').css('cursor','pointer');
+  }
+
+  function _applyPhoto(file){
+    var image = $('#id-card-image-container');
+    var reader  = new FileReader();
+
+    reader.onloadend = function () {
+      image.css('background-image',  'url(' + reader.result + ')');
+    }
+
+    if (file) {
+      reader.readAsDataURL(file); //reads the data as a URL
+    } else {
+      image.src = "";
+    }  
+  }
 
   function _createContent(){
     var content = '<div id="id-card-container">';
@@ -144,9 +180,8 @@
 
     // Image Container
     content += '<div id="id-card-image-container">';
-
     content += '</div>';	// id-card-image-container
-
+    content += '<input type="file"" id="id-card-image-uploader" style="display:none" />';
     content += '</div>';  // id-card-content-left
 
 
@@ -162,6 +197,12 @@
     content += _getLabelText('name', 'name:', leftColumnWidth);
     content += _getFieldTextBoxEdit('name', 'Ryan Patrick McFadden');
     content += '</div>';  // id-card-name-container
+
+    content += '<div id="id-card-email-container">';
+    content += _getLabelText('email', 'email:', leftColumnWidth);
+    content += _getFieldTextBoxEdit('email', 'ryan@email.com');
+    content += '</div>';  // id-card-name-container
+
 
     content += '<div id="id-card-address-container" style="margin-top:' + breakHeight + '">';
     content += _getLabelText('addressline1', 'address:', leftColumnWidth);
