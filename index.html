@@ -6,11 +6,11 @@
     <script type="text/javascript" src="digital-id-card.js"></script>	
 
     <script>
-      $( document ).ready(function() {
-        $("#id-card").digitalIdCard();
-
-        console.log('JSON text' +  $("#id-card").digitalIdCard('text'));
-      }); 
+        $(document).ready(function () {
+            $("#id-card").digitalIdCard({callback: function() {
+                console.log('JSON text' + $("#id-card").digitalIdCard('text'));
+            }});
+        }); 
     </script>
 
   </head>

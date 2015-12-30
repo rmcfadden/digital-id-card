@@ -1,5 +1,4 @@
 "use strict";
-
 (function($){
   $.fn.digitalIdCard = function(methodOrOptions){
   	if ( methods[methodOrOptions] ) {
@@ -14,39 +13,78 @@
 
   var methods = {
     init : function(options) {
-      var defaults = {};
+      var defaults = {
+          shouldLoadDependencies : true
+      };
 
       var settings = $.extend({}, defaults, options); 			
-
-      var contentText = _createContent();	
-      $(this).html(contentText);
-
-      _makeLabelEditable('id-card-name');
-      _makeLabelEditable('id-card-email');
-      _makeLabelEditable('id-card-addressline1');
-      _makeLabelEditable('id-card-addressline2');
-      _makeLabelEditable('id-card-country');
-      _makeLabelEditable('id-card-sex');
-      _makeLabelEditable('id-card-height');
-      _makeLabelEditable('id-card-weight');
-      _makeLabelEditable('id-card-eyes');
-
-      _enableImageUploader();
-
-      return this;
+      
+      if(settings.shouldLoadDependencies)
+      {
+        var proxyThis = this;
+        _loadDependencies(function(){          
+          _init.apply(proxyThis,settings);
+          if(options.callback){
+            options.callback();
+          }
+        });
+      }
+      else{     
+        return _init.apply(this,settings);
+      }
     },
     show : function( ) {},
     hide : function( ) {},
     onUpdate : function() {},
-    text : function() { return _toText(); }
+    text : function() { return _idToJsonText(); }
   }
 
-  function _toJson(){
+  function _loadDependencies(callback){
+
+    var scripts = [
+      'include/sjcl.js',
+      'include/crypto.js'
+    ];
+
+    _getMultiScripts(scripts, '/').done(function(){
+      if(callback){
+        callback();          
+      }  
+    });
+
+  }
+
+  function _init(settings){    
+
+    var contentText = _createContent();	
+    $(this).html(contentText);
+
+    _makeLabelEditable('id-card-name');
+    _makeLabelEditable('id-card-email');
+    _makeLabelEditable('id-card-addressline1');
+    _makeLabelEditable('id-card-addressline2');
+    _makeLabelEditable('id-card-country');
+    _makeLabelEditable('id-card-sex');
+    _makeLabelEditable('id-card-height');
+    _makeLabelEditable('id-card-weight');
+    _makeLabelEditable('id-card-eyes');
+
+    _enableImageUploader();
+
+     return this;
+  }
+
+  function _idToJson(){
     var obj = {};
 
     var name = _getName();
     if(name){
       obj.name = name;
+    }
+
+    var email = _getEmail();
+    if(email){
+      obj.email = email;
     }
 
     var addressLine1 = _getAddressLine1();
@@ -59,29 +97,88 @@
       obj.addressLine2 = addressLine2;
     }
 
+    var country = _getCountry();
+    if(country){
+      obj.country = country;
+    }
+
+    var height = _getHeight();
+    if(height){
+      obj.height = height;
+    }
+
+    var weight = _getWeight();
+    if(weight){
+      obj.weight = weight;
+    }
+
+    var eyes = _getEyes();
+    if(eyes){
+      obj.eyes = eyes;
+    }
+
     return obj;
   }
 
-  function _toText(){
-    var json = _toJson();
+
+  function _idToEnvelopeJson(){
+    var envelope = {};
+ 
+    var id = _idToJson();
+
+    envelope.id = id;
+
+    var idText = JSON.stringify(id);
+
+    return envelope;
+  }
+
+
+  function _idToJsonText(){
+    var json = _idToJson();
     return JSON.stringify(json);
   }
+
 
   function _getName(){
     return $('#id-card-name').text();
   }
 
+
+  function _getEmail(){
+    return $('#id-card-email').text();
+  }
+
+
   function _getAddressLine1(){
     return $('#id-card-addressline1').text();
   }
+
 
   function _getAddressLine2(){
     return $('#id-card-addressline2').text();
   }
 
-  function _getcountry(){
+
+  function _getCountry(){
     return $('#id-card-country').text();
   }
+
+
+  function _getWeight(){
+    return $('#id-card-weight').text();
+  }
+
+
+  function _getHeight(){
+    return $('#id-card-height').text();
+  }
+
+
+  function _getEyes(){
+    return $('#id-card-eyes').text();
+  }
+
 
   function _makeLabelEditable(id){
     var idObj = $('#' + id);
@@ -95,7 +192,6 @@
     idObj.mouseout(function() {
       idObjEditImage.removeClass('id-card-edit-image');
     });
-
 
     idObj.click(function() {
       idObj.css('display', 'none');
@@ -124,7 +220,6 @@
   }
 
   function _getFieldTextBoxEdit(name, text, width){
-
     var widthText = ''
     if(width){
       widthText = width;
@@ -136,8 +231,8 @@
     return returnText;
   }
 
-  function _enableImageUploader(){
 
+  function _enableImageUploader(){
     $("input[id='id-card-image-uploader']").change(function(event){
         var file = event.target.files[0];
         _applyPhoto(file); 
@@ -149,6 +244,7 @@
 
     $('#id-card-image-container').css('cursor','pointer');
   }
+
 
   function _applyPhoto(file){
     var image = $('#id-card-image-container');
@@ -243,6 +339,18 @@
     return content;
   }
 
-  // Editable lable: example: http://jsfiddle.net/jasuC/
+
+  function _getMultiScripts(arr, path) {
+    var _arr = $.map(arr, function(scr) {
+        return $.getScript( (path||"") + scr );
+    });
+
+    _arr.push($.Deferred(function( deferred ){
+        $( deferred.resolve );
+    }));
+
+    return $.when.apply($, _arr);
+  }
 
 })(jQuery);
+
