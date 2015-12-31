@@ -9,6 +9,8 @@
         $(document).ready(function () {
             $("#id-card").digitalIdCard({callback: function() {
                 console.log('Envelope text' + $("#id-card").digitalIdCard('envelopetext'));
+                //console.log('Key pair:');
+                //console.log($("#id-card").digitalIdCard('generatekeypair'));
             }});
         }); 
     </script>

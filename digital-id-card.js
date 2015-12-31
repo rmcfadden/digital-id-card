@@ -16,27 +16,29 @@
           shouldLoadDependencies : true
       };
 
-      var settings = $.extend({}, defaults, options); 			
+      settings = $.extend({}, defaults, options); 			
       
       if(settings.shouldLoadDependencies)
       {
         var proxyThis = this;
         _loadDependencies(function(){          
-          _init.apply(proxyThis,settings);
+          _init.apply(proxyThis);
           if(options.callback){
             options.callback();
           }
         });
       }
       else{     
-        return _init.apply(this,settings);
+        return _init.apply(this);
       }
     },
     show : function( ) {},
     hide : function( ) {},
     onUpdate : function() {},
     idtext : function() { return _idToJsonText(); },
-    envelopetext : function() { return _idToEnvelopeJsonText(); }
+    envelopetext : function() { return _idToEnvelopeJsonText(); },
+    generatekeypair : function() { return _generateKeyPair(); }
+
   }
 
 
@@ -54,7 +56,7 @@
   }
 
 
-  function _init(settings){    
+  function _init(){    
     var contentText = _createContent();	
     $(this).html(contentText);
 
@@ -140,11 +142,26 @@
     var idHash = crypt.hash(idText);
 
     envelope.idHash = { 
-      hasher: crypt.args.hasher,
+      hasher: crypt.args.hashAlgo,
       value : idHash
     };
 
+    console.log("settings:");
+    console.log(this.settings);
+
+    if(!this.settings.keys){
+      this.settings.keys = _generateKeyPair();
+    }
+
+    envelope.keys = this.settings.keys;    
+
     return envelope;
+  }
+
+
+  function _generateKeyPair(){
+    var crypt = new crypto();
+    return crypt.generateKeyPair();
   }
 
 
