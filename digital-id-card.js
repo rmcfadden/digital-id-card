@@ -1,4 +1,3 @@
-"use strict";
 (function($){
   $.fn.digitalIdCard = function(methodOrOptions){
   	if ( methods[methodOrOptions] ) {
@@ -36,26 +35,26 @@
     show : function( ) {},
     hide : function( ) {},
     onUpdate : function() {},
-    text : function() { return _idToJsonText(); }
+    idtext : function() { return _idToJsonText(); },
+    envelopetext : function() { return _idToEnvelopeJsonText(); }
   }
 
-  function _loadDependencies(callback){
 
+  function _loadDependencies(callback){
     var scripts = [
       'include/sjcl.js',
       'include/crypto.js'
     ];
 
-    _getMultiScripts(scripts, '/').done(function(){
+    _getMultiScripts(scripts, function(){
       if(callback){
         callback();          
       }  
     });
-
   }
 
-  function _init(settings){    
 
+  function _init(settings){    
     var contentText = _createContent();	
     $(this).html(contentText);
 
@@ -73,6 +72,7 @@
 
      return this;
   }
+
 
   function _idToJson(){
     var obj = {};
@@ -121,6 +121,12 @@
   }
 
 
+  function _idToJsonText(){
+    var json = _idToJson();
+    return JSON.stringify(json);
+  }
+
+
   function _idToEnvelopeJson(){
     var envelope = {};
  
@@ -130,12 +136,20 @@
 
     var idText = JSON.stringify(id);
 
+    var crypt = new crypto();
+    var idHash = crypt.hash(idText);
+
+    envelope.idHash = { 
+      hasher: crypt.args.hasher,
+      value : idHash
+    };
+
     return envelope;
   }
 
 
-  function _idToJsonText(){
-    var json = _idToJson();
+  function _idToEnvelopeJsonText(){
+    var json = _idToEnvelopeJson();
     return JSON.stringify(json);
   }
 
@@ -215,9 +229,11 @@
     });
   }
 
+
   function _getLabelText(name, text, width){
     return '<label id="id-card-' + name + '-label" class="id-card-desciption-label" style="display:inline-block; width:' + width + '">' + text + '</label>';
   }
+
 
   function _getFieldTextBoxEdit(name, text, width){
     var widthText = ''
@@ -340,16 +356,34 @@
   }
 
 
-  function _getMultiScripts(arr, path) {
-    var _arr = $.map(arr, function(scr) {
-        return $.getScript( (path||"") + scr );
-    });
+  function _getMultiScripts(scripts, callback) {
+    if(scripts.length ==0){
+        callback();
+        return;
+    }
 
-    _arr.push($.Deferred(function( deferred ){
-        $( deferred.resolve );
-    }));
+    var url = scripts[0];
+    scripts.shift();
+    loadScript(url, function(){
+        _getMultiScripts(scripts, callback);
+    });        
+  }
 
-    return $.when.apply($, _arr);
+
+  function loadScript(url, callback){
+    // Adding the script tag to the head as suggested before
+    var head = document.getElementsByTagName('head')[0];
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = url;
+
+    // Then bind the event to the callback function.
+    // There are several events for cross browser compatibility.
+    script.onreadystatechange = callback;
+    script.onload = callback;
+
+    // Fire the loading
+    head.appendChild(script);
   }
 
 })(jQuery);
