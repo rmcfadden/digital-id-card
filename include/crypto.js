@@ -35,5 +35,7 @@ function crypto(args) {
 
     return returnKey;
   }
-
 };
+
+// examples
+// http://blog.peramid.es/blog/2014/09/09/short-introduction-to-sjcl/

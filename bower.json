@@ -1,0 +1,18 @@
+{
+  "name": "digital-id-card",
+  "main": "digital-id-card.js",
+  "homepage": "https://github.com/rmcfadden/digital-id-card",
+  "authors": [
+    "Ryan McFadden <ryanpmcfadden@gmail.com>"
+  ],
+  "description": "A digital id card for secure identification and authentication",
+  "moduleType": [],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
