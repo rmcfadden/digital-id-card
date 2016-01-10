@@ -38,14 +38,14 @@
     idtext : function() { return _idToJsonText(); },
     envelopetext : function() { return _idToEnvelopeJsonText(); },
     generatekeypair : function() { return _generateKeyPair(); }
-
   }
 
 
   function _loadDependencies(callback){
     var scripts = [
       'include/sjcl.js',
-      'include/crypto.js'
+      'include/crypto.js',
+      'include/signature_pad.min.js',
     ];
 
     _getMultiScripts(scripts, function(){
@@ -145,9 +145,6 @@
       hasher: crypt.args.hashAlgo,
       value : idHash
     };
-
-    console.log("settings:");
-    console.log(this.settings);
 
     if(!this.settings.keys){
       this.settings.keys = _generateKeyPair();
@@ -253,12 +250,12 @@
 
 
   function _getFieldTextBoxEdit(name, text, width){
-    var widthText = ''
+    var widthText = '';
     if(width){
       widthText = width;
     }
 
-    var returnText = '<label id="id-card-' + name + '" class="id-card-desciption-label-text" style="display:inline-block; width:' + widthText + '">' + text + '</label>';
+    var returnText = '<label id="id-card-' + name + '" class="id-card-desciption-label-text" style="display:inline-block;width:' + widthText + '">' + text + '</label>';
     returnText += '<span id="id-card-' + name + '-edit-image"></span>';
     returnText += '<input id="id-card-' + name + '-edit" name="id-card-' + name + '" style="display:none; width:' + widthText + '"></input>';
     return returnText;
@@ -298,17 +295,16 @@
     var content = '<div id="id-card-container">';
 
     // Header
-    content += '<div id="id-card-header">';
+    content += '<div id="id-card-header" style="background-color:red">';
     content += '</div>';	// id-card-header
 
     // Content
     content += '<div id="id-card-content">';
 
-    content += '<div id="id-card-content-left">';
-
+    content += '<div id="id-card-content-left" style="background-color:orange;">';
 
     // Image Container
-    content += '<div id="id-card-image-container">';
+    content += '<div id="id-card-image-container" >';
     content += '</div>';	// id-card-image-container
     content += '<input type="file"" id="id-card-image-uploader" style="display:none" />';
     content += '</div>';  // id-card-content-left
@@ -318,9 +314,9 @@
     var leftColumnWidth = "75px";
     var breakHeight = "25px";
 
-    content += '<div id="id-card-content-right">';
+    content += '<div id="id-card-content-right" style="background-color:blue;">';
 
-    content += '<div id="id-card-desciption-container">';
+    content += '<div id="id-card-description-container">';
 
     content += '<div id="id-card-name-container">';
     content += _getLabelText('name', 'name:', leftColumnWidth);
@@ -330,7 +326,7 @@
     content += '<div id="id-card-email-container">';
     content += _getLabelText('email', 'email:', leftColumnWidth);
     content += _getFieldTextBoxEdit('email', 'ryan@email.com');
-    content += '</div>';  // id-card-name-container
+    content += '</div>';  // id-card-email-container
 
 
     content += '<div id="id-card-address-container" style="margin-top:' + breakHeight + '">';
@@ -342,30 +338,33 @@
     content += '<div></div>';
     content += _getLabelText('country', '', leftColumnWidth);
     content += _getFieldTextBoxEdit('country', 'United States Of America');
-    content += '<div></div>';  // id-card-name-address
+    content += '<div></div>';  
+    content += '</div>'; // id-card-address-address
 
-    content += '<div id="id-card-address-container" style="margin-top:' + breakHeight + '">';
+    content += '<div id="id-card-physical-container" style="margin-top:' + breakHeight + '">';
     content += _getLabelText('sex', 'sex:', leftColumnWidth);
     content += _getFieldTextBoxEdit('sex', 'Male', leftColumnWidth);
     content += _getLabelText('height', 'height:', leftColumnWidth);
     content += _getFieldTextBoxEdit('height', '6 ft.', leftColumnWidth);
-    content += '<div/>';
+    content += '<div></div>';  
     content += _getLabelText('weight', 'weight:', leftColumnWidth);
     content += _getFieldTextBoxEdit('weight', '185 lb.', leftColumnWidth);
     content += _getLabelText('eyes', 'eyes:', leftColumnWidth);
     content += _getFieldTextBoxEdit('eyes', 'Blue', leftColumnWidth);
-    content += '<div/>'; // id-card-name-physical
+    content += '<div></div>';  
+    content += '</div>'; // id-card-physical-container
 
 
     content += '</div>';	// id-card-description-container
     content += '</div>';  // id-card-content-right
 
-
-    content += '</div>';	// id-card-content
+    content += '</div>';  // id-card-content
 
     // Footer
-    content += '<div id="id-card-footer">';
+    content += '<div id="id-card-footer" style="background-color:red;">';
+    content += 'TESTING;TESTING;TESTING;TESTING;TESTING;TESTING;';
     content += '</div>';	// id-card-footer
+
 
     content += '</div>';	// id-card-container
 

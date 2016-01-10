@@ -31,9 +31,16 @@ body {
   position: relative;
   padding: 10px;
 }
+#id-card-content {
+  height: 300px;
+}
 #id-card-header {
   width: 100%;
   height: 50px;
+}
+#id-card-footer {
+  width: 100%;
+  height: 90px;
 }
 #id-card-image-container {
   width: 260px;
@@ -46,15 +53,14 @@ body {
 #id-card-content-left {
   float: left;
   width: 280px;
+  height: 300px;
 }
 #id-card-content-right {
   float: right;
-  --background-color: blue;
   width: 360px;
+  height: 300px;
 }
 #id-card-desciption-container {
-  float: left;
-  --background-color: red;
   width: 100%;
 }
 .id-card-desciption-label {
