@@ -72,6 +72,8 @@
 
     _enableImageUploader();
 
+ //   _loadSignatureSection();
+
      return this;
   }
 
@@ -207,7 +209,6 @@
     return $('#id-card-eyes').text();
   }
 
-
   function _makeLabelEditable(id){
     var idObj = $('#' + id);
     var idObjEdit = $('#' + id +'-edit');
@@ -291,6 +292,14 @@
     }  
   }
 
+
+  function _loadSignatureSection(){
+    var cardSignature = $('id-card-signature')
+    var signaturePad = new SignaturePad(cardSignature.first());
+
+  }
+
+
   function _createContent(){
     var content = '<div id="id-card-container">';
 
@@ -314,7 +323,7 @@
     var leftColumnWidth = "75px";
     var breakHeight = "25px";
 
-    content += '<div id="id-card-content-right" style="background-color:blue;">';
+    content += '<div id="id-card-content-right">';
 
     content += '<div id="id-card-description-container">';
 
@@ -362,13 +371,51 @@
 
     // Footer
     content += '<div id="id-card-footer" style="background-color:red;">';
-    content += 'TESTING;TESTING;TESTING;TESTING;TESTING;TESTING;';
+
+    content += '<div id="id-card-footer-content">';
+
+    content += '<div id="id-card-footer-content-left">';
+
+    content += '<div id="id-card-signature" style="height:60px">';
+    content += '<canvas id="id-card-signature-canvas style="height:50px; background-color:black;"></canvas>';
+    content += '</div>'; //id-card-signature
+
+
+
+    content += '</div>';  // id-card-footer-content-left
+
+    content += '<div id="id-card-footer-content-right">';
+    content += 'RIGHT SIDE!!!';
+
+    content += '</div>';  // id-card-footer-content-left
+    content += '</div>';  // id-card-footer-content
+
     content += '</div>';	// id-card-footer
 
 
     content += '</div>';	// id-card-container
 
     return content;
+  }
+
+  function _getImageDataUrl(img){
+
+    //http://stackoverflow.com/questions/934012/get-image-data-in-javascript
+    var canvas = document.createElement("canvas");
+    canvas.width = img.width;
+    canvas.height = img.height;
+
+    // Copy the image contents to the canvas
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0);
+
+    // Get the data-URL formatted image
+    // Firefox supports PNG and JPEG. You could check img.src to
+    // guess the original format, but be aware the using "image/jpg"
+    // will re-encode the image.
+    var dataURL = canvas.toDataURL("image/png");
+
+    return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
   }
 
 
