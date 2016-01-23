@@ -3,9 +3,9 @@
 @background-color: #eeeded;
 @font-color: #9e9e9e;
 @card-color: #ffffff;
+@border-color: #9e9e9e;
 
 @description-font-family: 'Roboto', sans-serif; 
-
 
 #Fonts {
   .Roboto (@weight: normal, @size: 15px, @lineHeight: 20px){
@@ -16,13 +16,10 @@
     }
 }
   
-
-
 // TODO: move to main page
 body {
   background: @background-color;
 }
-
 
 .materials-container-1 {
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
@@ -79,12 +76,23 @@ body {
   height:90px;  
 }
 
+#id-card-signature{
+  width: 280px;
+  height:90px;
+  cursor: pointer;
+}
+
+#id-card-signature-canvas{
+  height:90px;
+  width:280px;
+  background: #eeeeee;
+}
+
 #id-card-footer-content-right{
   float: left; 
   width: 360px;
   height:90px;  
 }
-
 
 #id-card-image-container{
   width: 260px;
@@ -134,4 +142,3 @@ body {
   background-size: 14px 14px;
   margin:1px;
 }
-

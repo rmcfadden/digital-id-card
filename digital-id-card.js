@@ -45,7 +45,8 @@
     var scripts = [
       'include/sjcl.js',
       'include/crypto.js',
-      'include/signature_pad.min.js',
+      'include/jSignature.min.js',
+      'include/jquery.qrcode.js'
     ];
 
     _getMultiScripts(scripts, function(){
@@ -72,7 +73,7 @@
 
     _enableImageUploader();
 
- //   _loadSignatureSection();
+    _loadSignatureSection();
 
      return this;
   }
@@ -294,9 +295,8 @@
 
 
   function _loadSignatureSection(){
-    var cardSignature = $('id-card-signature')
-    var signaturePad = new SignaturePad(cardSignature.first());
-
+    var cardIdSignature = $('#id-card-signature');
+    cardIdSignature.jSignature();
   }
 
 
@@ -370,21 +370,19 @@
     content += '</div>';  // id-card-content
 
     // Footer
-    content += '<div id="id-card-footer" style="background-color:red;">';
+    content += '<div id="id-card-footer">';
 
     content += '<div id="id-card-footer-content">';
 
     content += '<div id="id-card-footer-content-left">';
 
-    content += '<div id="id-card-signature" style="height:60px">';
-    content += '<canvas id="id-card-signature-canvas style="height:50px; background-color:black;"></canvas>';
+    content += '<div id="id-card-signature">';
     content += '</div>'; //id-card-signature
-
 
 
     content += '</div>';  // id-card-footer-content-left
 
-    content += '<div id="id-card-footer-content-right">';
+    content += '<div id="id-card-footer-content-right" style="background-color:red;">';
     content += 'RIGHT SIDE!!!';
 
     content += '</div>';  // id-card-footer-content-left
@@ -398,8 +396,8 @@
     return content;
   }
 
-  function _getImageDataUrl(img){
 
+  function _getImageDataUrl(img){
     //http://stackoverflow.com/questions/934012/get-image-data-in-javascript
     var canvas = document.createElement("canvas");
     canvas.width = img.width;
