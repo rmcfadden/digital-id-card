@@ -46,6 +46,7 @@
       'include/sjcl.js',
       'include/crypto.js',
       'include/jSignature.min.js',
+      'include/qrcode.js',
       'include/jquery.qrcode.js'
     ];
 
@@ -74,6 +75,8 @@
     _enableImageUploader();
 
     _loadSignatureSection();
+
+    _loadQRCode();
 
      return this;
   }
@@ -299,18 +302,22 @@
     cardIdSignature.jSignature();
   }
 
+  function _loadQRCode(){
+    $('#id-card-qrcode').qrcode({ width: 90, height: 90, text: 'this plugin is great'});
+  }
+
 
   function _createContent(){
     var content = '<div id="id-card-container">';
 
     // Header
-    content += '<div id="id-card-header" style="background-color:red">';
+    content += '<div id="id-card-header">';
     content += '</div>';	// id-card-header
 
     // Content
     content += '<div id="id-card-content">';
 
-    content += '<div id="id-card-content-left" style="background-color:orange;">';
+    content += '<div id="id-card-content-left">';
 
     // Image Container
     content += '<div id="id-card-image-container" >';
@@ -340,7 +347,7 @@
 
     content += '<div id="id-card-address-container" style="margin-top:' + breakHeight + '">';
     content += _getLabelText('addressline1', 'address:', leftColumnWidth);
-    content += _getFieldTextBoxEdit('addressline1', '1101 De La Vina St.');
+    content += _getFieldTextBoxEdit('addressline1', '123 Awesome Ln.');
     content += '<div></div>';
     content += _getLabelText('addressline2', '', leftColumnWidth);
     content += _getFieldTextBoxEdit('addressline2', 'Santa Barbara, CA. 93101');
@@ -382,8 +389,18 @@
 
     content += '</div>';  // id-card-footer-content-left
 
-    content += '<div id="id-card-footer-content-right" style="background-color:red;">';
-    content += 'RIGHT SIDE!!!';
+    content += '<div id="id-card-footer-content-right">';
+
+    content += '<div id="id-card-footer-info-left">';
+    content += '</div>'; //   id-card-footer-info-left
+
+    content += '<div id="id-card-footer-info-right" >';
+
+    content += '<div id="id-card-qrcode">';
+    content += '</div>'; //id-card-qrcode
+
+    content += '</div>'; //   id-card-footer-info-right
+
 
     content += '</div>';  // id-card-footer-content-left
     content += '</div>';  // id-card-footer-content
