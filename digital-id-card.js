@@ -13,7 +13,8 @@
   var methods = {
     init : function(options) {
       var defaults = {
-          shouldLoadDependencies : true
+          shouldLoadDependencies : true,
+          includeRoot : 'include/'
       };
 
       settings = $.extend({}, defaults, options); 			
@@ -31,6 +32,8 @@
       else{     
         return _init.apply(this);
       }
+    
+      return this;
     },
     show : function( ) {},
     hide : function( ) {},
@@ -42,12 +45,14 @@
 
 
   function _loadDependencies(callback){
+
+
     var scripts = [
-      'include/sjcl.js',
-      'include/crypto.js',
-      'include/jSignature.min.js',
-      'include/qrcode.js',
-      'include/jquery.qrcode.js'
+      settings.includeRoot + 'sjcl.js',
+      settings.includeRoot + 'crypto.js',
+      settings.includeRoot + 'jSignature.min.js',
+      settings.includeRoot + 'qrcode.js',
+      settings.includeRoot + 'jquery.qrcode.js'
     ];
 
     _getMultiScripts(scripts, function(){
