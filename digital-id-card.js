@@ -1,20 +1,20 @@
 (function($){
   $.fn.digitalIdCard = function(methodOrOptions){
-  	if ( methods[methodOrOptions] ) {
-			return methods[ methodOrOptions ].apply( this, Array.prototype.slice.call( arguments, 1 ));
-		} else if ( typeof methodOrOptions === 'object' || ! methodOrOptions ) {
-			// Default to "init"
-			return methods.init.apply( this, arguments );
-		} else {
-			$.error( "Method " +  methodOrOptions + " does not exist on jQuery.digitalIdCard" );
-  	}
+    if ( methods[methodOrOptions] ) {
+      return methods[ methodOrOptions ].apply( this, Array.prototype.slice.call( arguments, 1 ));
+    } else if ( typeof methodOrOptions === 'object' || ! methodOrOptions ) {
+    // Default to "init"
+      return methods.init.apply( this, arguments );
+    } else {
+      $.error( "Method " +  methodOrOptions + " does not exist on jQuery.digitalIdCard" );
+    }
   }
 
   var methods = {
     init : function(options) {
       var defaults = {
-          shouldLoadDependencies : true,
-          includeRoot : 'include/'
+        shouldLoadDependencies : true,
+        includeRoot : 'include/'
       };
 
       settings = $.extend({}, defaults, options); 			
@@ -25,7 +25,7 @@
         _loadDependencies(function(){          
           _init.apply(proxyThis);
           if(options.callback){
-            options.callback();
+           options.callback();
           }
         });
       }
@@ -45,8 +45,6 @@
 
 
   function _loadDependencies(callback){
-
-
     var scripts = [
       settings.includeRoot + 'sjcl.js',
       settings.includeRoot + 'crypto.js',
