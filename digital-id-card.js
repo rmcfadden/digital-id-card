@@ -1,4 +1,6 @@
+"use strict";
 (function($){
+
   $.fn.digitalIdCard = function(methodOrOptions){
     if ( methods[methodOrOptions] ) {
       return methods[ methodOrOptions ].apply( this, Array.prototype.slice.call( arguments, 1 ));
@@ -17,15 +19,17 @@
         includeRoot : 'include/'
       };
 
-      settings = $.extend({}, defaults, options); 			
-      
+      var $this = $(this);
+      var settings =  $.extend(true, {}, defaults, options || {});
+      $this.data('settings', settings);
+
       if(settings.shouldLoadDependencies)
       {
         var proxyThis = this;
-        _loadDependencies(function(){          
+        _loadDependencies(settings, function(){          
           _init.apply(proxyThis);
-          if(options.callback){
-           options.callback();
+          if(settings.callback){
+           settings.callback();
           }
         });
       }
@@ -39,12 +43,14 @@
     hide : function( ) {},
     onUpdate : function() {},
     idtext : function() { return _idToJsonText(); },
-    envelopetext : function() { return _idToEnvelopeJsonText(); },
+    envelopetext : function() { 
+      return _idToEnvelopeJsonText(this);
+    },
     generatekeypair : function() { return _generateKeyPair(); }
   }
 
 
-  function _loadDependencies(callback){
+  function _loadDependencies(settings, callback){
     var scripts = [
       settings.includeRoot + 'sjcl.js',
       settings.includeRoot + 'crypto.js',
@@ -138,7 +144,7 @@
   }
 
 
-  function _idToEnvelopeJson(){
+  function _idToEnvelopeJson(obj){
     var envelope = {};
  
     var id = _idToJson();
@@ -155,11 +161,15 @@
       value : idHash
     };
 
-    if(!this.settings.keys){
-      this.settings.keys = _generateKeyPair();
+    var $this = $(obj);
+
+    var settings = $this.data('settings');
+
+    if(!settings.keys){
+      settings.keys = _generateKeyPair();
     }
 
-    envelope.keys = this.settings.keys;    
+    envelope.keys = settings.keys;    
 
     return envelope;
   }
@@ -171,8 +181,8 @@
   }
 
 
-  function _idToEnvelopeJsonText(){
-    var json = _idToEnvelopeJson();
+  function _idToEnvelopeJsonText(obj){
+    var json = _idToEnvelopeJson(obj);
     return JSON.stringify(json);
   }
 
