@@ -87,6 +87,13 @@
 
     _loadQRCode();
 
+		$(document).mouseup(function (e) {
+			var popup = $("#id-card-popup");
+			if (!$('#id-card-popup').is(e.target) && !popup.is(e.target) && popup.has(e.target).length == 0) {
+			   popup.hide(250);
+			}
+		});
+
      return this;
   }
 
@@ -315,13 +322,26 @@
     cardIdSignature.jSignature();
   }
 
+
   function _loadQRCode(){
     $('#id-card-qrcode').qrcode({ width: 90, height: 90, text: 'this plugin is great'});
+    $('#id-card-qrcode').click(function(){
+    	_showQRPopupFrame();
+    });
+  }
+
+
+  function _showQRPopupFrame(){
+		showCardPopup();
+  	var  idCardPopup = $('#id-card-popup');
   }
 
 
   function _createContent(){
     var content = '<div id="id-card-container">';
+
+		content += '<div id="id-card-popup" style="display:none">TESTING!</div>'; // id-card-popup
+
 
     // Header
     content += '<div id="id-card-header">';
@@ -420,10 +440,15 @@
 
     content += '</div>';	// id-card-footer
 
-
     content += '</div>';	// id-card-container
 
+ 
     return content;
+  }
+
+
+  function showCardPopup(){
+ 		$('#id-card-popup').show();
   }
 
 
