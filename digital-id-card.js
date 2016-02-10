@@ -345,8 +345,8 @@
     // Card Popup
 		content += '<div id="id-card-popup" style="display:none">';
 		content += '<header id="id-card-popup-header">';
-		content += '<div id="id-card-content-left">';
-
+		content += '<div id="id-card-header-title">';
+		content += '<div id="id-card-header-close">';
 		content += '</header>'; 
 		content += '<main id="id-card-popup-content">TESTING!</main>'; 
 		content += '<footer id="id-card-popup-footer"></footer>'; 

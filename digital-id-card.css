@@ -104,6 +104,22 @@ body {
   display: flex;
   flex-direction: column;
 }
+#id-card-header-title {
+  float: left;
+  width: 580px;
+  height: 30px;
+  margin: 5px;
+}
+#id-card-header-close {
+  float: left;
+  width: 30px;
+  height: 30px;
+  margin: 5px;
+  display: inline-block;
+  background-color: #252525;
+  background-image: url(assets/ic_close_24px.svg);
+  background-size: 30px 30px;
+}
 #id-card-popup > header,
 #id-card-popup > footer {
   width: 620px;
