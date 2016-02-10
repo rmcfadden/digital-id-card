@@ -1,7 +1,7 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto);  
 
 @background-color: #eeeded;
-@font-color: #9e9e9e;
+@font-color: #252525;
 @card-color: #ffffff;
 @border-color: #9e9e9e;
 
@@ -105,7 +105,7 @@ body {
   height: 260px; 
   display: block; 
   background-color: @font-color;
-  background-image: url(assets/ic_person_white_24px.svg);
+  background-image: url(assets/ic_person_24px.svg);
   background-size: 260px 260px;
   margin: 10px;
 }
@@ -148,7 +148,7 @@ body {
 #id-card-popup > header, #id-card-popup > footer
 {
   width: 620px;
-  height: 50px;
+  height: 40px;
   background-color:green; 
 }
 
@@ -157,20 +157,31 @@ body {
   flex:1;
 }
 
-
-  
 .id-card-desciption-label
 {
+  display:inline-block;
+  width: 75px;
   #Fonts > .Roboto();
   color: @font-color;
 }
 
 .id-card-desciption-label-text
 {
+  display:inline-block;
   #Fonts > .Roboto(@weight: bold, @size: 18px);
   color: @font-color;
   margin-left:5px;
   margin-right:3px;
+}
+
+.label-break
+{
+  margin-top: 25px;
+}
+
+.field-fixed-width
+{
+  width: 75px;
 }
 
 .id-card-edit-image{
@@ -178,7 +189,7 @@ body {
   height: 14px; 
   display:inline-block;
   background-color: @font-color;
-  background-image: url(assets/ic_mode_edit_white_24px.svg);
+  background-image: url(assets/ic_mode_edit_24px.svg);
   background-size: 14px 14px;
   margin:1px;
 }

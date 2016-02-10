@@ -269,20 +269,20 @@
   }
 
 
-  function _getLabelText(name, text, width){
-    return '<label id="id-card-' + name + '-label" class="id-card-desciption-label" style="display:inline-block; width:' + width + '">' + text + '</label>';
+  function _getLabelText(name, text){
+    return '<label id="id-card-' + name + '-label" class="id-card-desciption-label">' + text + '</label>';
   }
 
 
-  function _getFieldTextBoxEdit(name, text, width){
-    var widthText = '';
-    if(width){
-      widthText = width;
+  function _getFieldTextBoxEdit(name, text, fixedWidthClass){
+    var newFixedWidthClass = '';
+    if(fixedWidthClass){
+      newFixedWidthClass = fixedWidthClass;
     }
 
-    var returnText = '<label id="id-card-' + name + '" class="id-card-desciption-label-text" style="display:inline-block;width:' + widthText + '">' + text + '</label>';
+    var returnText = '<label id="id-card-' + name + '" class="id-card-desciption-label-text ' +  newFixedWidthClass + '">' + text + '</label>';
     returnText += '<span id="id-card-' + name + '-edit-image"></span>';
-    returnText += '<input id="id-card-' + name + '-edit" name="id-card-' + name + '" style="display:none; width:' + widthText + '"></input>';
+    returnText += '<input id="id-card-' + name + '-edit" name="id-card-' + name + '" class="' + newFixedWidthClass + '" style="display:none;"></input>';
     return returnText;
   }
 
@@ -342,8 +342,12 @@
   function _createContent(){
     var content = '<div id="id-card-container">';
 
+    // Card Popup
 		content += '<div id="id-card-popup" style="display:none">';
-		content += '<header id="id-card-popup-header"></header>'; 
+		content += '<header id="id-card-popup-header">';
+		content += '<div id="id-card-content-left">';
+
+		content += '</header>'; 
 		content += '<main id="id-card-popup-content">TESTING!</main>'; 
 		content += '<footer id="id-card-popup-footer"></footer>'; 
 		content += '</div>'; // id-card-popup
@@ -366,46 +370,45 @@
 
 
     // Description
-    var leftColumnWidth = "75px";	// TODO: remove these
-    var breakHeight = "25px";
+    var fixedWidthClass = 'field-fixed-width';// = "75px";	// TODO: remove these
 
     content += '<div id="id-card-content-right">';
 
     content += '<div id="id-card-description-container">';
 
     content += '<div id="id-card-name-container">';
-    content += _getLabelText('name', 'name:', leftColumnWidth);
+    content += _getLabelText('name', 'name:');
     content += _getFieldTextBoxEdit('name', 'Ryan Patrick McFadden');
     content += '</div>';  // id-card-name-container
 
     content += '<div id="id-card-email-container">';
-    content += _getLabelText('email', 'email:', leftColumnWidth);
+    content += _getLabelText('email', 'email:');
     content += _getFieldTextBoxEdit('email', 'ryan@email.com');
     content += '</div>';  // id-card-email-container
 
 
-    content += '<div id="id-card-address-container" style="margin-top:' + breakHeight + '">';
-    content += _getLabelText('addressline1', 'address:', leftColumnWidth);
+    content += '<div id="id-card-address-container" class="label-break">';
+    content += _getLabelText('addressline1', 'address:');
     content += _getFieldTextBoxEdit('addressline1', '123 Awesome Ln.');
     content += '<div></div>';
-    content += _getLabelText('addressline2', '', leftColumnWidth);
+    content += _getLabelText('addressline2', '');
     content += _getFieldTextBoxEdit('addressline2', 'Santa Barbara, CA. 93101');
     content += '<div></div>';
-    content += _getLabelText('country', '', leftColumnWidth);
+    content += _getLabelText('country', '');
     content += _getFieldTextBoxEdit('country', 'United States Of America');
     content += '<div></div>';  
     content += '</div>'; // id-card-address-address
 
-    content += '<div id="id-card-physical-container" style="margin-top:' + breakHeight + '">';
-    content += _getLabelText('sex', 'sex:', leftColumnWidth);
-    content += _getFieldTextBoxEdit('sex', 'Male', leftColumnWidth);
-    content += _getLabelText('height', 'height:', leftColumnWidth);
-    content += _getFieldTextBoxEdit('height', '6 ft.', leftColumnWidth);
+    content += '<div id="id-card-physical-container" class="label-break">';
+    content += _getLabelText('sex', 'sex:');
+    content += _getFieldTextBoxEdit('sex', 'Male', fixedWidthClass);
+    content += _getLabelText('height', 'height:');
+    content += _getFieldTextBoxEdit('height', '6 ft.', fixedWidthClass);
     content += '<div></div>';  
-    content += _getLabelText('weight', 'weight:', leftColumnWidth);
-    content += _getFieldTextBoxEdit('weight', '185 lb.', leftColumnWidth);
-    content += _getLabelText('eyes', 'eyes:', leftColumnWidth);
-    content += _getFieldTextBoxEdit('eyes', 'Blue', leftColumnWidth);
+    content += _getLabelText('weight', 'weight:');
+    content += _getFieldTextBoxEdit('weight', '185 lb.', fixedWidthClass);
+    content += _getLabelText('eyes', 'eyes:');
+    content += _getFieldTextBoxEdit('eyes', 'Blue', fixedWidthClass);
     content += '<div></div>';  
     content += '</div>'; // id-card-physical-container
 
