@@ -91,17 +91,6 @@ body {
   height: 280px;
   margin: 10px;
 }
-/*
-#id-card-popup {
-  .materials-container-3;
-  position: absolute;
-  background: @card-color;
-  left: 10px;
-  top: 10px;
-  width: 620px;
-  height: 420px;
-}
-*/
 #id-card-popup {
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
   position: absolute;
@@ -112,6 +101,17 @@ body {
   margin-left: -310px;
   width: 620px;
   height: 420px;
+  display: flex;
+  flex-direction: column;
+}
+#id-card-popup > header,
+#id-card-popup > footer {
+  width: 620px;
+  height: 50px;
+  background-color: green;
+}
+#id-card-popup > main {
+  flex: 1;
 }
 .id-card-desciption-label {
   font-family: 'Roboto', sans-serif;
@@ -137,4 +137,9 @@ body {
   background-image: url(assets/ic_mode_edit_white_24px.svg);
   background-size: 14px 14px;
   margin: 1px;
+}
+#id-card-qrcode {
+  width: 90px;
+  height: 90px;
+  cursor: pointer;
 }

@@ -324,7 +324,9 @@
 
 
   function _loadQRCode(){
-    $('#id-card-qrcode').qrcode({ width: 90, height: 90, text: 'this plugin is great'});
+
+  	// Custom colors are not working!
+    $('#id-card-qrcode').qrcode({ width: 90, height: 90, colorDark : '#9e9e9e', colorLight : '#ffffff', text: 'this plugin is great'});
     $('#id-card-qrcode').click(function(){
     	_showQRPopupFrame();
     });
@@ -340,7 +342,11 @@
   function _createContent(){
     var content = '<div id="id-card-container">';
 
-		content += '<div id="id-card-popup" style="display:none">TESTING!</div>'; // id-card-popup
+		content += '<div id="id-card-popup" style="display:none">';
+		content += '<header id="id-card-popup-header"></header>'; 
+		content += '<main id="id-card-popup-content">TESTING!</main>'; 
+		content += '<footer id="id-card-popup-footer"></footer>'; 
+		content += '</div>'; // id-card-popup
 
 
     // Header
@@ -360,7 +366,7 @@
 
 
     // Description
-    var leftColumnWidth = "75px";
+    var leftColumnWidth = "75px";	// TODO: remove these
     var breakHeight = "25px";
 
     content += '<div id="id-card-content-right">';
