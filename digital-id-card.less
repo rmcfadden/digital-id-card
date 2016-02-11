@@ -80,7 +80,7 @@ body {
   width: 280px;
   height:90px;
   cursor: pointer;
-}
+}asdf
 
 #id-card-footer-content-right{
   float: right; 
@@ -146,44 +146,44 @@ body {
 #id-card-header-title{
   float: left; 
   width: 580px;
-  height:30px;
-  margin: 5px;
+  height:40px;
 }
 
 #id-card-header-close{
-  float: left; 
+  cursor: pointer;
+  float: right; 
   width: 30px;
-  height:30px;
+  height: 30px;
   margin: 5px;
-  display:inline-block;
-  background-color: @font-color;
+  background-card: @font-color;
   background-image: url(assets/ic_close_24px.svg);
   background-size: 30px 30px;
+  background-repeat: no-repeat;
+  background-position: center center;
 }
 
-
-#id-card-popup > header, #id-card-popup > footer
-{
+#id-card-popup > header, #id-card-popup > footer{
   width: 620px;
   height: 40px;
-  background-color:green; 
 }
 
-#id-card-popup > main
-{
+#id-card-popup-qrcode{
+  width: 50%;
+  margin: 0 auto; 
+}
+
+#id-card-popup > main{
   flex:1;
 }
 
-.id-card-desciption-label
-{
+.id-card-desciption-label{
   display:inline-block;
   width: 75px;
   #Fonts > .Roboto();
   color: @font-color;
 }
 
-.id-card-desciption-label-text
-{
+.id-card-desciption-label-text{
   display:inline-block;
   #Fonts > .Roboto(@weight: bold, @size: 18px);
   color: @font-color;
@@ -191,13 +191,11 @@ body {
   margin-right:3px;
 }
 
-.label-break
-{
+.label-break{
   margin-top: 25px;
 }
 
-.field-fixed-width
-{
+.field-fixed-width{
   width: 75px;
 }
 
@@ -212,8 +210,7 @@ body {
 }
 
 
-#id-card-qrcode
-{
+#id-card-qrcode{
   width: 90px;
   height: 90px;
   cursor: pointer

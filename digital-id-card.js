@@ -25,7 +25,7 @@
 
       if(settings.shouldLoadDependencies)
       {
-        var proxyThis = this;
+      	var proxyThis = this;
         _loadDependencies(settings, function(){          
           _init.apply(proxyThis);
           if(settings.callback){
@@ -90,13 +90,21 @@
 		$(document).mouseup(function (e) {
 			var popup = $("#id-card-popup");
 			if (!$('#id-card-popup').is(e.target) && !popup.is(e.target) && popup.has(e.target).length == 0) {
-			   popup.hide(250);
+				_hidePopup();
 			}
+		});
+
+		$('#id-card-header-close').click(function(e){
+			_hidePopup();
 		});
 
      return this;
   }
 
+  function _hidePopup(){
+		var popup = $("#id-card-popup");
+		popup.hide(100);  	
+  }
 
   function _idToJson(){
     var obj = {};
@@ -323,8 +331,7 @@
   }
 
 
-  function _loadQRCode(){
-
+  function _loadQRCode(code){
   	// Custom colors are not working!
     $('#id-card-qrcode').qrcode({ width: 90, height: 90, colorDark : '#9e9e9e', colorLight : '#ffffff', text: 'this plugin is great'});
     $('#id-card-qrcode').click(function(){
@@ -333,10 +340,19 @@
   }
 
 
-  function _showQRPopupFrame(){
-		showCardPopup();
-  	var  idCardPopup = $('#id-card-popup');
+  function _loadPopupQRCode(code){
+  	// Custom colors are not working!
+		$('#id-card-popup-content').empty();
+		$('#id-card-popup-content').append('<div id="id-card-popup-qrcode"></div>');
+		$('#id-card-popup-qrcode').qrcode({ width: 300, height: 300, colorDark : '#9e9e9e', colorLight : '#ffffff', text: 'this plugin is great'});
   }
+
+
+
+  function _showQRPopupFrame(){
+		_showCardPopup();
+		_loadPopupQRCode();  
+	}
 
 
   function _createContent(){
@@ -345,9 +361,10 @@
     // Card Popup
 		content += '<div id="id-card-popup" style="display:none">';
 		content += '<header id="id-card-popup-header">';
-		content += '<div id="id-card-header-title">';
-		content += '<div id="id-card-header-close">';
-		content += '</header>'; 
+		content += '<div id="id-card-header-title"></div>';
+		content += '<svg id="id-card-header-close" class="svg-icon"></svg>';
+		content += '</header>'; // id-card-popup-header
+
 		content += '<main id="id-card-popup-content">TESTING!</main>'; 
 		content += '<footer id="id-card-popup-footer"></footer>'; 
 		content += '</div>'; // id-card-popup
@@ -370,7 +387,7 @@
 
 
     // Description
-    var fixedWidthClass = 'field-fixed-width';// = "75px";	// TODO: remove these
+    var fixedWidthClass = 'field-fixed-width';
 
     content += '<div id="id-card-content-right">';
 
@@ -456,7 +473,7 @@
   }
 
 
-  function showCardPopup(){
+  function _showCardPopup(){
  		$('#id-card-popup').show();
   }
 

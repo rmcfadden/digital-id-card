@@ -52,7 +52,7 @@ body {
   height: 90px;
   cursor: pointer;
 }
-#id-card-footer-content-right {
+asdf #id-card-footer-content-right {
   float: right;
   width: 360px;
   height: 90px;
@@ -107,24 +107,28 @@ body {
 #id-card-header-title {
   float: left;
   width: 580px;
-  height: 30px;
-  margin: 5px;
+  height: 40px;
 }
 #id-card-header-close {
-  float: left;
+  cursor: pointer;
+  float: right;
   width: 30px;
   height: 30px;
   margin: 5px;
-  display: inline-block;
-  background-color: #252525;
+  background-card: #252525;
   background-image: url(assets/ic_close_24px.svg);
   background-size: 30px 30px;
+  background-repeat: no-repeat;
+  background-position: center center;
 }
 #id-card-popup > header,
 #id-card-popup > footer {
   width: 620px;
   height: 40px;
-  background-color: green;
+}
+#id-card-popup-qrcode {
+  width: 50%;
+  margin: 0 auto;
 }
 #id-card-popup > main {
   flex: 1;
