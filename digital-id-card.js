@@ -21,7 +21,7 @@
 
       var $this = $(this);
       var settings =  $.extend(true, {}, defaults, options || {});
-      $this.data('settings', settings);
+      $this.data('digitalIdCard', settings);
 
       if(settings.shouldLoadDependencies)
       {
@@ -87,6 +87,12 @@
 
     _loadQRCode();
 
+    _initPopup();
+
+     return this;
+  }
+
+  function _initPopup(){
 		$(document).mouseup(function (e) {
 			var popup = $("#id-card-popup");
 			if (!$('#id-card-popup').is(e.target) && !popup.is(e.target) && popup.has(e.target).length == 0) {
@@ -94,12 +100,23 @@
 			}
 		});
 
-		$('#id-card-header-close').click(function(e){
+		$('#id-card-popup-header-close').click(function(e){
 			_hidePopup();
 		});
 
-     return this;
+
+		$('#id-card-popup-accept').click(function(e){
+			_hidePopup();
+		});
+
+		$('#id-card-popup-accept').html(_localizeString('popup_accept_button','ACCEPT'));
+
+		$('#id-card-popup-close').click(function(e){
+			_hidePopup();
+		});
+		$('#id-card-popup-close').html(_localizeString('popup_close_button','CLOSE'));
   }
+
 
   function _hidePopup(){
 		var popup = $("#id-card-popup");
@@ -178,7 +195,7 @@
 
     var $this = $(obj);
 
-    var settings = $this.data('settings');
+    var settings = $this.data('digitalIdCard');
 
     if(!settings.keys){
       settings.keys = _generateKeyPair();
@@ -327,7 +344,11 @@
 
   function _loadSignatureSection(){
     var cardIdSignature = $('#id-card-signature');
-    cardIdSignature.jSignature();
+  	cardIdSignature.jSignature();
+
+		cardIdSignature.click(function(){
+    	_showSignaurePopupFrame();
+    });
   }
 
 
@@ -348,11 +369,25 @@
   }
 
 
-
   function _showQRPopupFrame(){
 		_showCardPopup();
 		_loadPopupQRCode();  
 	}
+
+
+  function _showSignaurePopupFrame(){
+		_showCardPopup();
+		_showSignaturePopup();
+	}
+
+
+	function _showSignaturePopup(){
+		$('#id-card-popup-content').empty();
+
+		var cardIdSignature = $('<div id="id-card-popup-signature"></div>');
+		$('#id-card-popup-content').append(cardIdSignature);
+		cardIdSignature.jSignature();
+	} 
 
 
   function _createContent(){
@@ -360,13 +395,16 @@
 
     // Card Popup
 		content += '<div id="id-card-popup" style="display:none">';
-		content += '<header id="id-card-popup-header">';
+		content += '<header>';
 		content += '<div id="id-card-header-title"></div>';
-		content += '<svg id="id-card-header-close" class="svg-icon"></svg>';
+		content += '<svg id="id-card-popup-header-close" class="svg-icon"></svg>';
 		content += '</header>'; // id-card-popup-header
 
 		content += '<main id="id-card-popup-content">TESTING!</main>'; 
-		content += '<footer id="id-card-popup-footer"></footer>'; 
+		content += '<footer id="id-card-popup-footer">';
+		content += '<button id="id-card-popup-accept"></button>';
+		content += '<button id="id-card-popup-close"></button>';
+		content += '</footer>'; 
 		content += '</div>'; // id-card-popup
 
 
@@ -509,6 +547,12 @@
     loadScript(url, function(){
         _getMultiScripts(scripts, callback);
     });        
+  }
+
+
+  function _localizeString(item, defaulText){
+  	// TOOD
+  	return defaulText;
   }
 
 

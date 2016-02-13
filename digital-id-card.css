@@ -109,7 +109,7 @@ asdf #id-card-footer-content-right {
   width: 580px;
   height: 40px;
 }
-#id-card-header-close {
+#id-card-popup-header-close {
   cursor: pointer;
   float: right;
   width: 30px;
@@ -121,8 +121,12 @@ asdf #id-card-footer-content-right {
   background-repeat: no-repeat;
   background-position: center center;
 }
-#id-card-popup > header,
+#id-card-popup > header {
+  width: 620px;
+  height: 40px;
+}
 #id-card-popup > footer {
+  text-align: center;
   width: 620px;
   height: 40px;
 }
