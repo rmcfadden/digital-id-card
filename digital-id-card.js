@@ -71,6 +71,8 @@
     var contentText = _createContent();	
     $(this).html(contentText);
 
+    _initPopup();
+
     _makeLabelEditable('id-card-name');
     _makeLabelEditable('id-card-email');
     _makeLabelEditable('id-card-addressline1');
@@ -81,16 +83,15 @@
     _makeLabelEditable('id-card-weight');
     _makeLabelEditable('id-card-eyes');
 
+    _applyEnvelopeToCard(this);
+
     _enableImageUploader();
-
     _loadSignatureSection();
-
     _loadQRCode();
-
-    _initPopup();
 
      return this;
   }
+
 
   function _initPopup(){
 		$(document).mouseup(function (e) {
@@ -109,12 +110,41 @@
 			_hidePopup();
 		});
 
-		$('#id-card-popup-accept').html(_localizeString('popup_accept_button','ACCEPT'));
+		$('#id-card-popup-accept').html(_localizeString('popup_accept_text','ACCEPT'));
 
 		$('#id-card-popup-close').click(function(e){
 			_hidePopup();
 		});
-		$('#id-card-popup-close').html(_localizeString('popup_close_button','CLOSE'));
+		$('#id-card-popup-close').html(_localizeString('popup_close_text','CLOSE'));
+  }
+
+
+  function _applyEnvelopeToCard(obj){
+    var $this = $(obj);
+    var settings = $this.data('digitalIdCard');
+
+    if(settings.obj){
+      console.log("CONTENTS:");
+      console.log(settings.obj);
+
+      if(settings.obj.digitalId){
+        var digitalId = settings.obj.digitalId;
+
+        if(digitalId.name){
+          _setName(digitalId.name);
+        }
+
+        if(digitalId.email){
+          _setEmail(digitalId.email);
+        }
+
+        if(digitalId.addressLine1){
+          _setAddressLine1(digitalId.addressLine1);
+        }
+
+
+      }
+    }
   }
 
 
@@ -122,6 +152,7 @@
 		var popup = $("#id-card-popup");
 		popup.hide(100);  	
   }
+
 
   function _idToJson(){
     var obj = {};
@@ -179,11 +210,11 @@
   function _idToEnvelopeJson(obj){
     var envelope = {};
  
-    var id = _idToJson();
+    var digitalid = _idToJson();
 
-    envelope.id = id;
+    envelope.digitalid = digitalid;
 
-    var idText = JSON.stringify(id);
+    var idText = JSON.stringify(digitalid);
 
     var crypt = new crypto();
     var idHash = crypt.hash(idText);
@@ -194,7 +225,6 @@
     };
 
     var $this = $(obj);
-
     var settings = $this.data('digitalIdCard');
 
     if(!settings.keys){
@@ -224,8 +254,18 @@
   }
 
 
+  function _setName(name){
+    $('#id-card-name').text(name);
+  }
+
+
   function _getEmail(){
     return $('#id-card-email').text();
+  }
+
+
+  function _setEmail(email){
+    $('#id-card-email').text(email);
   }
 
 
@@ -234,8 +274,18 @@
   }
 
 
+  function _setAddressLine1(addressline1){
+    $('#id-card-addressline1').text(addressline1);
+  }
+
+
   function _getAddressLine2(){
     return $('#id-card-addressline2').text();
+  }
+
+
+  function _setAddressLine2(addressline2){
+    $('#id-card-addressline2').text(addressline2);
   }
 
 
@@ -244,8 +294,18 @@
   }
 
 
+  function _setCountry(country){
+    $('#id-card-country').text(country);
+  }
+
+
   function _getWeight(){
     return $('#id-card-weight').text();
+  }
+
+
+  function _setWeight(weight){
+    $('#id-card-weight').text(weight);
   }
 
 
@@ -254,9 +314,20 @@
   }
 
 
+  function _setHeight(height){
+    $('#id-card-height').text(height);
+  }
+
+
   function _getEyes(){
     return $('#id-card-eyes').text();
   }
+
+
+  function _setEyes(eyes){
+    $('#id-card-height').text(height);
+  }
+
 
   function _makeLabelEditable(id){
     var idObj = $('#' + id);
@@ -402,8 +473,8 @@
 
 		content += '<main id="id-card-popup-content">TESTING!</main>'; 
 		content += '<footer id="id-card-popup-footer">';
-		content += '<button id="id-card-popup-accept"></button>';
-		content += '<button id="id-card-popup-close"></button>';
+		content += '<span id="id-card-popup-accept"></span>';
+		content += '<span id="id-card-popup-close"></span>';
 		content += '</footer>'; 
 		content += '</div>'; // id-card-popup
 
@@ -432,18 +503,23 @@
     content += '<div id="id-card-description-container">';
 
     content += '<div id="id-card-name-container">';
-    content += _getLabelText('name', 'name:');
-    content += _getFieldTextBoxEdit('name', 'Ryan Patrick McFadden');
+
+    var nameLabel =_localizeString('name_label_text','name:')
+    content += _getLabelText('name', nameLabel);
+    content += _getFieldTextBoxEdit('name', '');
     content += '</div>';  // id-card-name-container
 
     content += '<div id="id-card-email-container">';
-    content += _getLabelText('email', 'email:');
-    content += _getFieldTextBoxEdit('email', 'ryan@email.com');
+
+    var emailLabel =_localizeString('email_label_text','email:')
+    content += _getLabelText('email', emailLabel);
+    content += _getFieldTextBoxEdit('email', '');
     content += '</div>';  // id-card-email-container
 
-
     content += '<div id="id-card-address-container" class="label-break">';
-    content += _getLabelText('addressline1', 'address:');
+
+    var addressLabel =_localizeString('address_label_text','address:')
+    content += _getLabelText('addressline1', addressLabel);
     content += _getFieldTextBoxEdit('addressline1', '123 Awesome Ln.');
     content += '<div></div>';
     content += _getLabelText('addressline2', '');
@@ -455,13 +531,21 @@
     content += '</div>'; // id-card-address-address
 
     content += '<div id="id-card-physical-container" class="label-break">';
-    content += _getLabelText('sex', 'sex:');
+
+    var sexLabel =_localizeString('sex_label_text','sex:')
+    content += _getLabelText('sex', sexLabel);
     content += _getFieldTextBoxEdit('sex', 'Male', fixedWidthClass);
-    content += _getLabelText('height', 'height:');
+
+    var heightLabel =_localizeString('height_label_text',heightLabel)
+    content += _getLabelText('height', heightLabel);
     content += _getFieldTextBoxEdit('height', '6 ft.', fixedWidthClass);
     content += '<div></div>';  
+
+    var weightLabel =_localizeString('weight_label_text',weightLabel)
     content += _getLabelText('weight', 'weight:');
     content += _getFieldTextBoxEdit('weight', '185 lb.', fixedWidthClass);
+
+    var eyesLabel =_localizeString('eyes_label_text',eyesLabel)
     content += _getLabelText('eyes', 'eyes:');
     content += _getFieldTextBoxEdit('eyes', 'Blue', fixedWidthClass);
     content += '<div></div>';  

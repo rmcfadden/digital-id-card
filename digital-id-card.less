@@ -4,6 +4,8 @@
 @font-color: #252525;
 @card-color: #ffffff;
 @border-color: #9e9e9e;
+@link-color: #4285f4;
+
 
 @description-font-family: 'Roboto', sans-serif; 
 
@@ -19,6 +21,7 @@
 // TODO: move to main page
 body {
   background: @background-color;
+
 }
 
 .materials-container-1 {
@@ -184,8 +187,19 @@ body {
 }
 
 #id-card-popup-accept{
- 
+  margin-right:5px;
+  color: @link-color;
+  cursor: pointer;
+  #Fonts > .Roboto(@weight: 600, @size: 18px);
 }
+
+#id-card-popup-close{
+  margin-left:5px;
+  color: @font-color;
+  cursor: pointer;
+  #Fonts > .Roboto(@weight: 600, @size: 18px);
+}
+
 
 
 .id-card-desciption-label{

@@ -104,7 +104,7 @@ asdf #id-card-footer-content-right {
   display: flex;
   flex-direction: column;
 }
-#id-card-header-title {
+ #id-card-header-title {
   float: left;
   width: 580px;
   height: 40px;
@@ -136,6 +136,24 @@ asdf #id-card-footer-content-right {
 }
 #id-card-popup > main {
   flex: 1;
+}
+#id-card-popup-accept {
+  margin-right: 5px;
+  color: #4285f4;
+  cursor: pointer;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 20px;
+}
+#id-card-popup-close {
+  margin-left: 5px;
+  color: #252525;
+  cursor: pointer;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 20px;
 }
 .id-card-desciption-label {
   display: inline-block;
