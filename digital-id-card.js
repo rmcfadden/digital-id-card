@@ -142,6 +142,30 @@
           _setAddressLine1(digitalId.addressLine1);
         }
 
+        if(digitalId.addressLine2){
+          _setAddressLine2(digitalId.addressLine2);
+        }
+
+        if(digitalId.sex){
+          _setSex(digitalId.sex);
+        }
+
+        if(digitalId.weight){
+          _setWeight(digitalId.weight);
+        }
+
+        if(digitalId.height){
+          _setHeight(digitalId.height);
+        }
+
+        if(digitalId.eyes){
+          _setEyes(digitalId.eyes);
+        }
+
+        if(digitalId.country){
+          _setCountry(digitalId.country);
+        }
+
 
       }
     }
@@ -325,7 +349,7 @@
 
 
   function _setEyes(eyes){
-    $('#id-card-height').text(height);
+    $('#id-card-eyes').text(eyes);
   }
 
 
@@ -370,13 +394,13 @@
   }
 
 
-  function _getFieldTextBoxEdit(name, text, fixedWidthClass){
+  function _getFieldTextBoxEdit(name, fixedWidthClass){
     var newFixedWidthClass = '';
     if(fixedWidthClass){
       newFixedWidthClass = fixedWidthClass;
     }
 
-    var returnText = '<label id="id-card-' + name + '" class="id-card-desciption-label-text ' +  newFixedWidthClass + '">' + text + '</label>';
+    var returnText = '<label id="id-card-' + name + '" class="id-card-desciption-label-text ' +  newFixedWidthClass + '"></label>';
     returnText += '<span id="id-card-' + name + '-edit-image"></span>';
     returnText += '<input id="id-card-' + name + '-edit" name="id-card-' + name + '" class="' + newFixedWidthClass + '" style="display:none;"></input>';
     return returnText;
@@ -506,27 +530,27 @@
 
     var nameLabel =_localizeString('name_label_text','name:')
     content += _getLabelText('name', nameLabel);
-    content += _getFieldTextBoxEdit('name', '');
+    content += _getFieldTextBoxEdit('name');
     content += '</div>';  // id-card-name-container
 
     content += '<div id="id-card-email-container">';
 
     var emailLabel =_localizeString('email_label_text','email:')
     content += _getLabelText('email', emailLabel);
-    content += _getFieldTextBoxEdit('email', '');
+    content += _getFieldTextBoxEdit('email');
     content += '</div>';  // id-card-email-container
 
     content += '<div id="id-card-address-container" class="label-break">';
 
     var addressLabel =_localizeString('address_label_text','address:')
     content += _getLabelText('addressline1', addressLabel);
-    content += _getFieldTextBoxEdit('addressline1', '123 Awesome Ln.');
+    content += _getFieldTextBoxEdit('addressline1');
     content += '<div></div>';
     content += _getLabelText('addressline2', '');
-    content += _getFieldTextBoxEdit('addressline2', 'Santa Barbara, CA. 93101');
+    content += _getFieldTextBoxEdit('addressline2');
     content += '<div></div>';
     content += _getLabelText('country', '');
-    content += _getFieldTextBoxEdit('country', 'United States Of America');
+    content += _getFieldTextBoxEdit('country');
     content += '<div></div>';  
     content += '</div>'; // id-card-address-address
 
@@ -534,20 +558,20 @@
 
     var sexLabel =_localizeString('sex_label_text','sex:')
     content += _getLabelText('sex', sexLabel);
-    content += _getFieldTextBoxEdit('sex', 'Male', fixedWidthClass);
+    content += _getFieldTextBoxEdit('sex',fixedWidthClass);
 
-    var heightLabel =_localizeString('height_label_text',heightLabel)
+    var heightLabel =_localizeString('height_label_text','height:');
     content += _getLabelText('height', heightLabel);
-    content += _getFieldTextBoxEdit('height', '6 ft.', fixedWidthClass);
+    content += _getFieldTextBoxEdit('height',fixedWidthClass);
     content += '<div></div>';  
 
     var weightLabel =_localizeString('weight_label_text',weightLabel)
     content += _getLabelText('weight', 'weight:');
-    content += _getFieldTextBoxEdit('weight', '185 lb.', fixedWidthClass);
+    content += _getFieldTextBoxEdit('weight',fixedWidthClass);
 
     var eyesLabel =_localizeString('eyes_label_text',eyesLabel)
     content += _getLabelText('eyes', 'eyes:');
-    content += _getFieldTextBoxEdit('eyes', 'Blue', fixedWidthClass);
+    content += _getFieldTextBoxEdit('eyes', fixedWidthClass);
     content += '<div></div>';  
     content += '</div>'; // id-card-physical-container
 
