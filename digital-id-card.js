@@ -139,7 +139,6 @@
         if(digitalId.addressLine1){
           _setAddressLine1(digitalId.addressLine1);
         }
-<<<<<<< HEAD
 
         if(digitalId.addressLine2){
           _setAddressLine2(digitalId.addressLine2);
@@ -164,10 +163,6 @@
         if(digitalId.country){
           _setCountry(digitalId.country);
         }
-
-
-=======
->>>>>>> a85f62156b7cff0c90f62a69b27b9f12cc844c6b
       }
     }
   }
