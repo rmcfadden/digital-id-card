@@ -44,7 +44,7 @@
     onUpdate : function() {},
     idtext : function() { return _idToJsonText(); },
     envelopetext : function() { 
-      return _idToEnvelopeJsonText(this);
+      return _idToEnvelopeJsonText.apply(this);
     },
     generatekeypair : function() { return _generateKeyPair(); }
   }
@@ -85,9 +85,9 @@
 
     _applyEnvelopeToCard(this);
 
-    _enableImageUploader();
-    _loadSignatureSection();
-    _loadQRCode();
+    _enableImageUploader(this);
+    _loadSignatureSection(this);
+    _loadQRCode(this);
 
      return this;
   }
@@ -124,8 +124,6 @@
     var settings = $this.data('digitalIdCard');
 
     if(settings.obj){
-      console.log("CONTENTS:");
-      console.log(settings.obj);
 
       if(settings.obj.digitalId){
         var digitalId = settings.obj.digitalId;
@@ -141,6 +139,7 @@
         if(digitalId.addressLine1){
           _setAddressLine1(digitalId.addressLine1);
         }
+<<<<<<< HEAD
 
         if(digitalId.addressLine2){
           _setAddressLine2(digitalId.addressLine2);
@@ -167,6 +166,8 @@
         }
 
 
+=======
+>>>>>>> a85f62156b7cff0c90f62a69b27b9f12cc844c6b
       }
     }
   }
@@ -221,6 +222,20 @@
       obj.eyes = eyes;
     }
 
+		var $this = $(this);
+		var settings = $this.data('digitalIdCard');
+
+		if(settings.hasPhoto){
+
+			var photoImg = $('#id-card-image-container')[0];
+
+
+			var photo =_getImageDataUrl(photoImg);
+			obj.photo = photo;
+			console.log('HAS PHOTO!!!');
+		}
+
+
     return obj;
   }
 
@@ -231,10 +246,10 @@
   }
 
 
-  function _idToEnvelopeJson(obj){
+  function _idToEnvelopeJson(){
     var envelope = {};
  
-    var digitalid = _idToJson();
+    var digitalid = _idToJson.apply(this);
 
     envelope.digitalid = digitalid;
 
@@ -248,7 +263,7 @@
       value : idHash
     };
 
-    var $this = $(obj);
+    var $this = $(this);
     var settings = $this.data('digitalIdCard');
 
     if(!settings.keys){
@@ -267,8 +282,8 @@
   }
 
 
-  function _idToEnvelopeJsonText(obj){
-    var json = _idToEnvelopeJson(obj);
+  function _idToEnvelopeJsonText(){
+    var json = _idToEnvelopeJson.apply(this);
     return JSON.stringify(json);
   }
 
@@ -407,10 +422,10 @@
   }
 
 
-  function _enableImageUploader(){
+  function _enableImageUploader(obj){
     $("input[id='id-card-image-uploader']").change(function(event){
-        var file = event.target.files[0];
-        _applyPhoto(file); 
+			var file = event.target.files[0];
+			_applyPhoto(obj,file); 
     });
 
     $('#id-card-image-container').click(function(event){
@@ -421,12 +436,17 @@
   }
 
 
-  function _applyPhoto(file){
+  function _applyPhoto(obj,file){
     var image = $('#id-card-image-container');
     var reader  = new FileReader();
 
     reader.onloadend = function () {
       image.css('background-image',  'url(' + reader.result + ')');
+
+			var $this = $(obj);
+			var settings = $this.data('digitalIdCard');
+			settings.isPhotoChanged = true;
+			settings.hasPhoto = true;
     }
 
     if (file) {
