@@ -27,14 +27,19 @@
       {
       	var proxyThis = this;
         _loadDependencies(settings, function(){          
-          _init.apply(proxyThis);
-          if(settings.callback){
-           settings.callback();
-          }
+          _init.call(proxyThis, function(){
+	          if(settings.callback){
+	          	settings.callback();
+          	}
+          });
         });
       }
       else{     
-        return _init.apply(this);
+       	_init.call(this, function(){
+          if(settings.callback){
+          	settings.callback();
+        	}
+    		});
       }
     
       return this;
@@ -67,7 +72,7 @@
   }
 
 
-  function _init(){    
+  function _init(callback){    
     var contentText = _createContent();	
     $(this).html(contentText);
 
@@ -83,15 +88,38 @@
     _makeLabelEditable('id-card-weight');
     _makeLabelEditable('id-card-eyes');
 
-    _applyEnvelopeToCard(this);
-
     _enableImageUploader(this);
     _loadSignatureSection(this);
     _loadQRCode(this);
 
-     return this;
+    var proxyThis = this;
+    _loadEnvelope.call(this,function(){
+	   	_applyEnvelopeToCard(proxyThis);  
+			if(callback){
+				callback();
+    	}
+   	});
   }
 
+
+  function _loadEnvelope(callback){
+  	var $this = $(this);
+    var settings = $this.data('digitalIdCard');
+
+    if(settings.url){
+			$.getJSON( settings.url, function(obj) {
+				settings.obj = obj;
+				if(callback){
+					callback();
+				} 			
+			})
+  		.fail(function() {
+    	console.log( "error" );
+  		});
+    }
+
+ 
+  }
 
   function _initPopup(){
 		$(document).mouseup(function (e) {
@@ -138,6 +166,14 @@
 
         if(digitalId.addressLine1){
           _setAddressLine1(digitalId.addressLine1);
+        }
+
+				if(digitalId.addressLine1){
+          _setPhoto(digitalId.photo);
+        }
+
+        if(digitalId.photo){
+	     		_setPhoto(digitalId.photo);
         }
       }
     }
@@ -197,15 +233,8 @@
 		var settings = $this.data('digitalIdCard');
 
 		if(settings.hasPhoto){
-
-			var photoImg = $('#id-card-image-container')[0];
-
-
-			var photo =_getImageDataUrl(photoImg);
-			obj.photo = photo;
-			console.log('HAS PHOTO!!!');
+			obj.photo = _getPhoto();
 		}
-
 
     return obj;
   }
@@ -339,6 +368,18 @@
   }
 
 
+	function _getPhoto(){
+		var photoImg = $('#id-card-photo')[0];
+		return _getImageDataUrl(photoImg);  
+	}
+
+
+  function _setPhoto(photo){
+		$('#id-card-photo').attr('src',photo);
+  }
+
+
+
   function _makeLabelEditable(id){
     var idObj = $('#' + id);
     var idObjEdit = $('#' + id +'-edit');
@@ -394,25 +435,26 @@
 
 
   function _enableImageUploader(obj){
-    $("input[id='id-card-image-uploader']").change(function(event){
+    $("input[id='id-card-photo-uploader']").change(function(event){
 			var file = event.target.files[0];
 			_applyPhoto(obj,file); 
     });
 
-    $('#id-card-image-container').click(function(event){
-         $("input[id='id-card-image-uploader']").click();
+    $('#id-card-photo-container').click(function(event){
+         $("input[id='id-card-photo-uploader']").click();
     });
 
-    $('#id-card-image-container').css('cursor','pointer');
+    $('#id-card-photo-container').css('cursor','pointer');
   }
 
 
   function _applyPhoto(obj,file){
-    var image = $('#id-card-image-container');
+    var image = $('#id-card-photo');
     var reader  = new FileReader();
 
     reader.onloadend = function () {
-      image.css('background-image',  'url(' + reader.result + ')');
+      //image.css('background-image',  'url(' + reader.result + ')');
+      image.attr('src', reader.result );
 
 			var $this = $(obj);
 			var settings = $this.data('digitalIdCard');
@@ -504,9 +546,10 @@
     content += '<div id="id-card-content-left">';
 
     // Image Container
-    content += '<div id="id-card-image-container" >';
-    content += '</div>';	// id-card-image-container
-    content += '<input type="file"" id="id-card-image-uploader" style="display:none" />';
+    content += '<div id="id-card-photo-container" >';
+   	content += '<img id="id-card-photo"></img>';
+    content += '</div>';	// id-card-photo-container
+    content += '<input type="file"" id="id-card-photo-uploader" style="display:none" />';
     content += '</div>';  // id-card-content-left
 
 
@@ -535,10 +578,10 @@
 
     var addressLabel =_localizeString('address_label_text','address:')
     content += _getLabelText('addressline1', addressLabel);
-    content += _getFieldTextBoxEdit('addressline1', '123 Awesome Ln.');
+    content += _getFieldTextBoxEdit('addressline1','');
     content += '<div></div>';
     content += _getLabelText('addressline2', '');
-    content += _getFieldTextBoxEdit('addressline2', 'Santa Barbara, CA. 93101');
+    content += _getFieldTextBoxEdit('addressline2', '');
     content += '<div></div>';
     content += _getLabelText('country', '');
     content += _getFieldTextBoxEdit('country', 'United States Of America');
@@ -631,7 +674,7 @@
     // will re-encode the image.
     var dataURL = canvas.toDataURL("image/png");
 
-    return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+    return dataURL; //.replace(/^data:image\/(png|jpg);base64,/, "");
   }
 
 
