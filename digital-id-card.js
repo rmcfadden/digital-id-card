@@ -108,7 +108,13 @@
 
     if(settings.url){
 			$.getJSON( settings.url, function(obj) {
-				settings.obj = obj;
+				// TODO!!!!!!!
+				//settings.obj = obj;
+				//$this.data('digitalIdCard', settings);
+
+console.log('OBJECT');
+console.log(obj);
+
 				if(callback){
 					callback();
 				} 			
