@@ -8,15 +8,12 @@
     <script>
 
         $(document).ready(function () {
-          var obj = {"digitalId":{"name":"Ryan Patrick McFadden","email":"ryan@email.com","addressLine1":"123 Awesome Ln.","addressLine2":"Santa Barbara, CA. 93101","country":"United States Of America","height":"6 ft.","weight":"185 lb.","eyes":"Blue"},"idHash":{"hasher":"sha256","value":"9111842b02d238db351edaee80ef41ef145e2e4d0658920d35315fccffd08084"},"keys":{"algo":"ecc","subAlgo":"k256","encoding":"hex","publicKey":"ffb146f6ee770d58861f0eeea3f7fc5cb2ae79c12350b8b4520df69eb7f7566f255c2d99ce9d0efafb3647fb4a361cd9ef48695b7936f0a54e4ac4f60c1a0f9f","secretKey":"2d7941d8f17fc1286638a32bc2312ae9a1a1fd354e9f8bf2dae78cb72358dae9"}};
-
-          $("#id-card").digitalIdCard({url: './sample-id.json', callback: function() {
+            $("#id-card").digitalIdCard({url: './sample-id.json', callback: function() {
           }});
 
           $("#save-button").click(function(e){
-              console.log('Envelope text' + $("#id-card").digitalIdCard('envelopetext'));
+            console.log('Envelope text' + $("#id-card").digitalIdCard('envelopetext'));
           });
-
         }); 
     </script>
 
@@ -29,6 +26,5 @@
       <button id="save-button">Save</button>
       <button id="clear-button">Clear</button>
     </div>
-  </body>
 
 </html>

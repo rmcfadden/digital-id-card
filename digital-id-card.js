@@ -108,9 +108,7 @@
 
     if(settings.url){
 			$.getJSON( settings.url, function(obj) {
-				// TODO!!!!!!!
-				//settings.obj = obj;
-				//$this.data('digitalIdCard', settings);
+		    settings.obj = obj;
 
 console.log('OBJECT');
 console.log(obj);
@@ -162,6 +160,8 @@ console.log(obj);
       if(settings.obj.digitalId){
         var digitalId = settings.obj.digitalId;
 
+
+
         if(digitalId.name){
           _setName(digitalId.name);
         }
@@ -174,8 +174,8 @@ console.log(obj);
           _setAddressLine1(digitalId.addressLine1);
         }
 
-				if(digitalId.addressLine1){
-          _setPhoto(digitalId.photo);
+				if(digitalId.addressLine2){
+          _setAddressLine2(digitalId.addressLine2);
         }
 
         if(digitalId.photo){
@@ -255,11 +255,11 @@ console.log(obj);
   function _idToEnvelopeJson(){
     var envelope = {};
  
-    var digitalid = _idToJson.apply(this);
+    var digitalId = _idToJson.apply(this);
 
-    envelope.digitalid = digitalid;
+    envelope.digitalId = digitalId;
 
-    var idText = JSON.stringify(digitalid);
+    var idText = JSON.stringify(digitalId);
 
     var crypt = new crypto();
     var idHash = crypt.hash(idText);
@@ -381,9 +381,8 @@ console.log(obj);
 
 
   function _setPhoto(photo){
-		$('#id-card-photo').attr('src',photo);
+    $('#id-card-photo').attr('src',photo);
   }
-
 
 
   function _makeLabelEditable(id){
@@ -692,7 +691,7 @@ console.log(obj);
 
     var url = scripts[0];
     scripts.shift();
-    loadScript(url, function(){
+    _loadScript(url, function(){
         _getMultiScripts(scripts, callback);
     });        
   }
@@ -704,7 +703,7 @@ console.log(obj);
   }
 
 
-  function loadScript(url, callback){
+  function _loadScript(url, callback){
     // Adding the script tag to the head as suggested before
     var head = document.getElementsByTagName('head')[0];
     var script = document.createElement('script');
@@ -719,6 +718,26 @@ console.log(obj);
     // Fire the loading
     head.appendChild(script);
   }
+
+  function _resizeImage(url, width, height, callback) {
+    var sourceImage = new Image();
+
+    sourceImage.onload = function() {
+        // Create a canvas with the desired dimensions
+        var canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+
+        // Scale and draw the source image to the canvas
+        canvas.getContext("2d").drawImage(sourceImage, 0, 0, width, height);
+
+        // Convert the canvas to a data URL in PNG format
+        callback(canvas.toDataURL());
+    }
+
+    sourceImage.src = url;
+}
+
 
 })(jQuery);
 
