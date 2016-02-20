@@ -160,8 +160,6 @@ console.log(obj);
       if(settings.obj.digitalId){
         var digitalId = settings.obj.digitalId;
 
-
-
         if(digitalId.name){
           _setName(digitalId.name);
         }
@@ -458,13 +456,16 @@ console.log(obj);
     var reader  = new FileReader();
 
     reader.onloadend = function () {
-      //image.css('background-image',  'url(' + reader.result + ')');
-      image.attr('src', reader.result );
+ 
+      _resizeImage(reader.result, 260, 260, function(resizedImg){
+        //image.css('background-image',  'url(' + reader.result + ')');
+        image.attr('src', resizedImg );
 
-			var $this = $(obj);
-			var settings = $this.data('digitalIdCard');
-			settings.isPhotoChanged = true;
-			settings.hasPhoto = true;
+  			var $this = $(obj);
+  			var settings = $this.data('digitalIdCard');
+  			settings.isPhotoChanged = true;
+  			settings.hasPhoto = true;
+      });
     }
 
     if (file) {
@@ -718,6 +719,7 @@ console.log(obj);
     // Fire the loading
     head.appendChild(script);
   }
+
 
   function _resizeImage(url, width, height, callback) {
     var sourceImage = new Image();
