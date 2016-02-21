@@ -94,7 +94,7 @@
 
     var proxyThis = this;
     _loadEnvelope.call(this,function(){
-	   	_applyEnvelopeToCard(proxyThis);  
+	   	_applyEnvelopeToCard.apply(proxyThis);  
 			if(callback){
 				callback();
     	}
@@ -110,7 +110,7 @@
 			$.getJSON( settings.url, function(obj) {
 		    settings.obj = obj;
 
-console.log('OBJECT');
+console.log('CURRENT OBJECT:');
 console.log(obj);
 
 				if(callback){
@@ -118,7 +118,6 @@ console.log(obj);
 				} 			
 			})
   		.fail(function() {
-    	console.log( "error" );
   		});
     }
 
@@ -151,8 +150,19 @@ console.log(obj);
   }
 
 
-  function _applyEnvelopeToCard(obj){
-    var $this = $(obj);
+  function _enableCloseOnlyPopup(){
+    $('#id-card-popup-accept').hide();
+
+  }
+
+
+  function _enableAcceptClosePopup(){
+    $('#id-card-popup-accept').show();  
+  }
+
+
+  function _applyEnvelopeToCard(){
+    var $this = $(this);
     var settings = $this.data('digitalIdCard');
 
     if(settings.obj){
@@ -511,7 +521,7 @@ console.log(obj);
   	cardIdSignature.jSignature();
 
 		cardIdSignature.click(function(){
-    	_showSignaurePopupFrame();
+    	_showSignaturePopupFrame();
     });
   }
 
@@ -534,12 +544,14 @@ console.log(obj);
 
 
   function _showQRPopupFrame(){
+    _enableCloseOnlyPopup();
 		_showCardPopup();
 		_loadPopupQRCode();  
 	}
 
 
-  function _showSignaurePopupFrame(){
+  function _showSignaturePopupFrame(){
+    _enableAcceptClosePopup();
 		_showCardPopup();
 		_showSignaturePopup();
 	}

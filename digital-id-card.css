@@ -108,7 +108,7 @@ asdf #id-card-footer-content-right {
   display: flex;
   flex-direction: column;
 }
-#id-card-header-title {
+ #id-card-header-title {
   float: left;
   width: 580px;
   height: 40px;
