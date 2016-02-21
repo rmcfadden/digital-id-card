@@ -176,6 +176,26 @@ console.log(obj);
           _setAddressLine2(digitalId.addressLine2);
         }
 
+        if(digitalId.country){
+          _setCountry(digitalId.country);
+        }
+
+        if(digitalId.sex){
+          _setSex(digitalId.sex);
+        }
+
+       if(digitalId.height){
+          _setHeight(digitalId.height);
+        }
+
+        if(digitalId.weight){
+          _setWeight(digitalId.weight);
+        }
+
+        if(digitalId.eyes){
+          _setEyes(digitalId.eyes);
+        }
+
         if(digitalId.photo){
 	     		_setPhoto(digitalId.photo);
         }
@@ -342,6 +362,16 @@ console.log(obj);
   }
 
 
+  function _getSex(){
+    return $('#id-card-sex').text();
+  }
+
+
+  function _setSex(sex){
+    $('#id-card-sex').text(sex);
+  }
+
+
   function _getWeight(){
     return $('#id-card-weight').text();
   }
@@ -368,7 +398,7 @@ console.log(obj);
 
 
   function _setEyes(eyes){
-    $('#id-card-height').text(height);
+    $('#id-card-eyes').text(eyes);
   }
 
 
@@ -590,7 +620,7 @@ console.log(obj);
     content += _getFieldTextBoxEdit('addressline2', '');
     content += '<div></div>';
     content += _getLabelText('country', '');
-    content += _getFieldTextBoxEdit('country', 'United States Of America');
+    content += _getFieldTextBoxEdit('country', '');
     content += '<div></div>';  
     content += '</div>'; // id-card-address-address
 
@@ -598,20 +628,20 @@ console.log(obj);
 
     var sexLabel =_localizeString('sex_label_text','sex:')
     content += _getLabelText('sex', sexLabel);
-    content += _getFieldTextBoxEdit('sex', 'Male', fixedWidthClass);
+    content += _getFieldTextBoxEdit('sex', '', fixedWidthClass);
 
-    var heightLabel =_localizeString('height_label_text',heightLabel)
+    var heightLabel =_localizeString('height_label_text','height:');
     content += _getLabelText('height', heightLabel);
-    content += _getFieldTextBoxEdit('height', '6 ft.', fixedWidthClass);
+    content += _getFieldTextBoxEdit('height', '', fixedWidthClass);
     content += '<div></div>';  
 
     var weightLabel =_localizeString('weight_label_text',weightLabel)
     content += _getLabelText('weight', 'weight:');
-    content += _getFieldTextBoxEdit('weight', '185 lb.', fixedWidthClass);
+    content += _getFieldTextBoxEdit('weight', '', fixedWidthClass);
 
     var eyesLabel =_localizeString('eyes_label_text',eyesLabel)
     content += _getLabelText('eyes', 'eyes:');
-    content += _getFieldTextBoxEdit('eyes', 'Blue', fixedWidthClass);
+    content += _getFieldTextBoxEdit('eyes', '', fixedWidthClass);
     content += '<div></div>';  
     content += '</div>'; // id-card-physical-container
 
