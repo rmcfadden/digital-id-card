@@ -47,12 +47,13 @@ body {
   width: 280px;
   height: 90px;
 }
-#id-card-signature {
+#id-card-pen-signature {
   width: 280px;
   height: 90px;
   cursor: pointer;
+  border: 0px;
 }
-asdf #id-card-footer-content-right {
+#id-card-footer-content-right {
   float: right;
   width: 360px;
   height: 90px;
@@ -108,7 +109,7 @@ asdf #id-card-footer-content-right {
   display: flex;
   flex-direction: column;
 }
- #id-card-header-title {
+#id-card-header-title {
   float: left;
   width: 580px;
   height: 40px;

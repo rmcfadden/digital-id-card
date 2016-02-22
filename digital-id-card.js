@@ -88,8 +88,8 @@
     _makeLabelEditable('id-card-weight');
     _makeLabelEditable('id-card-eyes');
 
-    _enableImageUploader(this);
-    _loadSignatureSection(this);
+    _enableImageUploader.call(this);
+    _loadPenSignatureSection.call(this);
     _loadQRCode(this);
 
     var proxyThis = this;
@@ -109,7 +109,6 @@
     if(settings.url){
 			$.getJSON( settings.url, function(obj) {
 		    settings.obj = obj;
-
 console.log('CURRENT OBJECT:');
 console.log(obj);
 
@@ -133,11 +132,6 @@ console.log(obj);
 		});
 
 		$('#id-card-popup-header-close').click(function(e){
-			_hidePopup();
-		});
-
-
-		$('#id-card-popup-accept').click(function(e){
 			_hidePopup();
 		});
 
@@ -207,8 +201,12 @@ console.log(obj);
         }
 
         if(digitalId.photo){
-	     		_setPhoto(digitalId.photo);
+	     		_setPhoto.call(this,digitalId.photo);
         }
+
+				if(digitalId.penSignature){
+					_setPenSignature.call(this,digitalId.penSignature);
+				}
       }
     }
   }
@@ -270,6 +268,10 @@ console.log(obj);
 			obj.photo = _getPhoto();
 		}
 
+		if(settings.hasPenSignature){
+			obj.penSignature = _getPenSignature();
+		}
+
     return obj;
   }
 
@@ -283,7 +285,7 @@ console.log(obj);
   function _idToEnvelopeJson(){
     var envelope = {};
  
-    var digitalId = _idToJson.apply(this);
+    var digitalId = _idToJson.call(this);
 
     envelope.digitalId = digitalId;
 
@@ -420,7 +422,26 @@ console.log(obj);
 
   function _setPhoto(photo){
     $('#id-card-photo').attr('src',photo);
+  
+		var $this = $(this);
+		var settings = $this.data('digitalIdCard');
+		settings.hasPhoto = true;
   }
+
+	function _getPenSignature(){
+		var signatureData = $('#id-card-pen-signature')[0];
+		return _getImageDataUrl(signatureData);  
+	}
+
+
+  function _setPenSignature(penSignature){
+		var cardIdPenSignature = $('#id-card-pen-signature');
+		cardIdPenSignature.attr('src', penSignature);
+
+		var $this = $(this);
+		var settings = $this.data('digitalIdCard');
+		settings.hasPenSignature = true;
+	}
 
 
   function _makeLabelEditable(id){
@@ -477,10 +498,11 @@ console.log(obj);
   }
 
 
-  function _enableImageUploader(obj){
+  function _enableImageUploader(){
+  	var proxyThis = this;
     $("input[id='id-card-photo-uploader']").change(function(event){
 			var file = event.target.files[0];
-			_applyPhoto(obj,file); 
+			_applyPhoto.call(proxyThis,file); 
     });
 
     $('#id-card-photo-container').click(function(event){
@@ -491,17 +513,18 @@ console.log(obj);
   }
 
 
-  function _applyPhoto(obj,file){
+  function _applyPhoto(file){
     var image = $('#id-card-photo');
     var reader  = new FileReader();
 
-    reader.onloadend = function () {
+    var proxyThis = this;
+  	reader.onloadend = function () {
  
       _resizeImage(reader.result, 260, 260, function(resizedImg){
         //image.css('background-image',  'url(' + reader.result + ')');
         image.attr('src', resizedImg );
 
-  			var $this = $(obj);
+  			var $this = $(proxyThis);
   			var settings = $this.data('digitalIdCard');
   			settings.isPhotoChanged = true;
   			settings.hasPhoto = true;
@@ -516,12 +539,11 @@ console.log(obj);
   }
 
 
-  function _loadSignatureSection(){
-    var cardIdSignature = $('#id-card-signature');
-  	cardIdSignature.jSignature();
-
-		cardIdSignature.click(function(){
-    	_showSignaturePopupFrame();
+  function _loadPenSignatureSection(){
+  	var proxyThis = this;
+		var cardIdPenSignature = $('#id-card-pen-signature');
+		cardIdPenSignature.click(function(){
+    	_showPenSignaturePopupFrame.call(proxyThis);
     });
   }
 
@@ -544,25 +566,53 @@ console.log(obj);
 
 
   function _showQRPopupFrame(){
+		_disableAcceptButton();
     _enableCloseOnlyPopup();
 		_showCardPopup();
 		_loadPopupQRCode();  
 	}
 
 
-  function _showSignaturePopupFrame(){
+  function _showPenSignaturePopupFrame(){
+		_disableAcceptButton();
     _enableAcceptClosePopup();
 		_showCardPopup();
-		_showSignaturePopup();
+		_showPenSignaturePopup();
+
+		var proxyThis = this;
+		$('#id-card-popup-accept').click(function(e){
+			_applyPenSignatureToCard.call(proxyThis);
+			_hidePopup();
+		});
 	}
 
 
-	function _showSignaturePopup(){
+	function _applyPenSignatureToCard(){
+		var cardIdPenSignature = $('#id-card-popup-pen-signature');
+		var signatureData = cardIdPenSignature.jSignature('getData');
+
+		var proxyThis  = this;
+		_resizeImage(signatureData, 280, 90, function(resizedImg){
+			var $this = $(proxyThis);
+			var settings = $this.data('digitalIdCard');
+			settings.isPenSignatureChanged = true;
+			settings.hasPenSignature = true;
+			_setPenSignature.call(proxyThis,resizedImg);
+		});
+	}
+
+
+	function _disableAcceptButton(){
+		$('#id-card-popup-accept').unbind();
+	}
+
+
+	function _showPenSignaturePopup(){
 		$('#id-card-popup-content').empty();
 
-		var cardIdSignature = $('<div id="id-card-popup-signature"></div>');
-		$('#id-card-popup-content').append(cardIdSignature);
-		cardIdSignature.jSignature();
+		var cardIdPenSignature = $('<div id="id-card-popup-pen-signature"></div>');
+		$('#id-card-popup-content').append(cardIdPenSignature);
+		cardIdPenSignature.jSignature();
 	} 
 
 
@@ -670,8 +720,8 @@ console.log(obj);
 
     content += '<div id="id-card-footer-content-left">';
 
-    content += '<div id="id-card-signature">';
-    content += '</div>'; //id-card-signature
+    content += '<img id="id-card-pen-signature">';
+    content += '</img>'; //id-card-signature
 
 
     content += '</div>';  // id-card-footer-content-left
