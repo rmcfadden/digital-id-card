@@ -46,6 +46,7 @@
     },
     show : function( ) {},
     hide : function( ) {},
+    clear : function( ) { _clear.apply(this); },
     onUpdate : function() {},
     idtext : function() { return _idToJsonText(); },
     envelopetext : function() { 
@@ -149,9 +150,23 @@ console.log(obj);
 
   }
 
-
   function _enableAcceptClosePopup(){
     $('#id-card-popup-accept').show();  
+  }
+
+
+  function _clear(){
+  	_setName('');
+    _setEmail('');
+    _setAddressLine1('');
+    _setAddressLine2('');
+    _setCountry('');
+    _setSex('');
+    _setHeight('');
+    _setWeight('');
+    _setEyes('');
+ 		_setPhoto.call(this,'');
+		_setPenSignature.call(this,'');
   }
 
 
@@ -246,6 +261,11 @@ console.log(obj);
       obj.country = country;
     }
 
+    var sex = _getSex();
+    if(sex){
+      obj.sex = sex;
+    }
+
     var height = _getHeight();
     if(height){
       obj.height = height;
@@ -330,7 +350,11 @@ console.log(obj);
 
 
   function _setName(name){
-    $('#id-card-name').text(name);
+  	if(name && name !== ''){
+	    $('#id-card-name').text(name);
+		}else{
+	    $('#id-card-name').html('&nbsp;');  
+	  }
   }
 
 
@@ -340,7 +364,11 @@ console.log(obj);
 
 
   function _setEmail(email){
-    $('#id-card-email').text(email);
+  	if(email && email !== ''){
+	    $('#id-card-email').text(email);
+		}else{
+	    $('#id-card-email').html('&nbsp;');  
+	  }
   }
 
 
@@ -350,7 +378,11 @@ console.log(obj);
 
 
   function _setAddressLine1(addressline1){
-    $('#id-card-addressline1').text(addressline1);
+  	if(addressline1 && addressline1 !== ''){
+	    $('#id-card-addressline1').text(addressline1);
+		}else{
+	    $('#id-card-addressline1').html('&nbsp;');  
+	  }
   }
 
 
@@ -360,7 +392,11 @@ console.log(obj);
 
 
   function _setAddressLine2(addressline2){
-    $('#id-card-addressline2').text(addressline2);
+  	if(addressline2 && addressline2 !== ''){
+	    $('#id-card-addressline2').text(addressline2);
+		}else{
+	    $('#id-card-addressline2').html('&nbsp;');  
+	  }
   }
 
 
@@ -370,8 +406,12 @@ console.log(obj);
 
 
   function _setCountry(country){
-    $('#id-card-country').text(country);
-  }
+  	if(country && country !== ''){
+	    $('#id-card-country').text(country);
+		}else{
+	    $('#id-card-country').html('&nbsp;');  
+	  }
+	}
 
 
   function _getSex(){
@@ -380,7 +420,11 @@ console.log(obj);
 
 
   function _setSex(sex){
-    $('#id-card-sex').text(sex);
+  	if(sex && sex !== ''){
+	    $('#id-card-sex').text(sex);
+		}else{
+	    $('#id-card-sex').html('&nbsp;');
+		}
   }
 
 
@@ -390,7 +434,11 @@ console.log(obj);
 
 
   function _setWeight(weight){
-    $('#id-card-weight').text(weight);
+  	if(weight && weight !== ''){
+	    $('#id-card-weight').text(weight);
+		}else{
+	    $('#id-card-weight').html('&nbsp;');
+		}
   }
 
 
@@ -400,7 +448,11 @@ console.log(obj);
 
 
   function _setHeight(height){
-    $('#id-card-height').text(height);
+    if(height && height !== ''){
+	    $('#id-card-height').text(height);
+		}else{
+	    $('#id-card-height').html('&nbsp;');
+		}
   }
 
 
@@ -410,7 +462,11 @@ console.log(obj);
 
 
   function _setEyes(eyes){
-    $('#id-card-eyes').text(eyes);
+    if(eyes && eyes !== ''){
+	    $('#id-card-eyes').text(eyes);
+		}else{
+	    $('#id-card-eyes').html('&nbsp;');
+		}
   }
 
 
@@ -425,7 +481,13 @@ console.log(obj);
   
 		var $this = $(this);
 		var settings = $this.data('digitalIdCard');
-		settings.hasPhoto = true;
+
+		if(photo && photo !== ''){
+			settings.hasPhoto = true;
+		}
+		else{
+			settings.hasPhoto = false;			
+		}
   }
 
 	function _getPenSignature(){
@@ -440,7 +502,14 @@ console.log(obj);
 
 		var $this = $(this);
 		var settings = $this.data('digitalIdCard');
-		settings.hasPenSignature = true;
+
+		if(penSignature && penSignature !== ''){
+			settings.hasPenSignature = true;
+		}
+		else{
+			settings.hasPenSignature = false;			
+		}
+
 	}
 
 
@@ -448,6 +517,9 @@ console.log(obj);
     var idObj = $('#' + id);
     var idObjEdit = $('#' + id +'-edit');
     var idObjEditImage = $('#' + id +'-edit-image');
+
+    idObj.html('&nbsp;');
+
 
     idObj.hover(function() {
       idObjEditImage.addClass('id-card-edit-image');
