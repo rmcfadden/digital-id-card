@@ -12,7 +12,9 @@
           }});
 
           $("#save-button").click(function(e){
-            console.log('Envelope text' + $("#id-card").digitalIdCard('envelopetext'));
+            $("#id-card").digitalIdCard('save', function(text){
+              console.log('Envelope text: ' + text);
+            })
           });
 
           $("#clear-button").click(function(e){

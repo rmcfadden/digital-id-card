@@ -52,6 +52,9 @@
     envelopetext : function() { 
       return _idToEnvelopeJsonText.apply(this);
     },
+    save : function(callback) {
+    	_save.call(this,callback);
+    },
     generatekeypair : function() { return _generateKeyPair(); }
   }
 
@@ -95,7 +98,7 @@
 
     var proxyThis = this;
     _loadEnvelope.call(this,function(){
-	   	_applyEnvelopeToCard.apply(proxyThis);  
+	   	_applyEnvelopeToCard.call(proxyThis);  
 			if(callback){
 				callback();
     	}
@@ -110,7 +113,8 @@
     if(settings.url){
 			$.getJSON( settings.url, function(obj) {
 		    settings.obj = obj;
-console.log('CURRENT OBJECT:');
+
+console.log('CURRENT OBJECT, TODO: Remove:');
 console.log(obj);
 
 				if(callback){
@@ -119,9 +123,12 @@ console.log(obj);
 			})
   		.fail(function() {
   		});
-    }
+    }else{
 
- 
+			if(callback){
+				callback();
+			}
+    }
   }
 
   function _initPopup(){
@@ -156,6 +163,11 @@ console.log(obj);
 
 
   function _clear(){
+		var $this = $(this);
+		var settings = $this.data('digitalIdCard');
+		settings.isNewCard = true;
+		settings.obj = null;
+
   	_setName('');
     _setEmail('');
     _setAddressLine1('');
@@ -170,14 +182,33 @@ console.log(obj);
   }
 
 
+  function _save(callback){
+ 		var results = _idToEnvelopeJsonText.apply(this);
+
+		var $this = $(this);
+		var settings = $this.data('digitalIdCard');
+
+		if(settings.isNewCard){
+	console.log("IN NEW CARD SAVE");
+			_showNewCardPopupFrame(callback);
+		}
+		else{
+	 		if(callback){
+	 			callback(results);
+	 		}			
+		}
+  }
+
+
   function _applyEnvelopeToCard(){
     var $this = $(this);
     var settings = $this.data('digitalIdCard');
 
     if(settings.obj){
-
       if(settings.obj.digitalId){
         var digitalId = settings.obj.digitalId;
+
+        settings.isNewCard = false;
 
         if(digitalId.name){
           _setName(digitalId.name);
@@ -223,6 +254,9 @@ console.log(obj);
 					_setPenSignature.call(this,digitalId.penSignature);
 				}
       }
+    }
+    else{
+        settings.isNewCard = true;
     }
   }
 
@@ -509,7 +543,6 @@ console.log(obj);
 		else{
 			settings.hasPenSignature = false;			
 		}
-
 	}
 
 
@@ -674,9 +707,17 @@ console.log(obj);
 	}
 
 
-	function _disableAcceptButton(){
-		$('#id-card-popup-accept').unbind();
-	}
+  function _showNewCardPopupFrame(callback){
+		_disableAcceptButton();
+
+		var proxyThis = this;
+		$('#id-card-popup-accept').click(function(e){
+			if(callback){
+				callback();
+			}
+			_hidePopup();
+		});
+  }
 
 
 	function _showPenSignaturePopup(){
@@ -686,6 +727,11 @@ console.log(obj);
 		$('#id-card-popup-content').append(cardIdPenSignature);
 		cardIdPenSignature.jSignature();
 	} 
+
+
+	function _disableAcceptButton(){
+		$('#id-card-popup-accept').unbind();
+	}
 
 
   function _createContent(){
