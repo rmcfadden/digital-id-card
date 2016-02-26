@@ -21,7 +21,41 @@
 // TODO: move to main page
 body {
   background: @background-color;
+  color: @font-color;
 
+}
+
+h1, .header1 {
+  color: @font-color;
+  #Fonts > .Roboto(@weight: 600, @size: 22px);
+}
+
+h2, .header2 {
+  color: @font-color;
+  #Fonts > .Roboto(@weight: 500, @size: 18px);
+}
+
+.link{
+  color: @link-color;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.center {
+  text-align:center;
+}
+
+.padding-top10{
+  padding-top: 10px;
+}
+
+.padding-top5{
+  padding-top: 5px;
+}
+
+.left-right-margin-10{
+  margin-right: 10px;
+  margin-left: 10px;
 }
 
 .materials-container-1 {

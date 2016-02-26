@@ -1,6 +1,41 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto);
 body {
   background: #eeeded;
+  color: #454545;
+}
+h1,
+.header1 {
+  color: #454545;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 20px;
+}
+h2,
+.header2 {
+  color: #454545;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 20px;
+}
+.link {
+  color: #4285f4;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.center {
+  text-align: center;
+}
+.padding-top10 {
+  padding-top: 10px;
+}
+.padding-top5 {
+  padding-top: 5px;
+}
+.left-right-margin-10 {
+  margin-right: 10px;
+  margin-left: 10px;
 }
 .materials-container-1 {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);

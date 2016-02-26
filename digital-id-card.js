@@ -53,9 +53,9 @@
       return _idToEnvelopeJsonText.apply(this);
     },
     save : function(callback) {
-    	_save.call(this,callback);
+    	_save.apply(this,callback);
     },
-    generatekeypair : function() { return _generateKeyPair(); }
+    generatekeypair : function() { return _generateKeyPair.apply(this); }
   }
 
 
@@ -157,6 +157,7 @@ console.log(obj);
 
   }
 
+
   function _enableAcceptClosePopup(){
     $('#id-card-popup-accept').show();  
   }
@@ -189,8 +190,7 @@ console.log(obj);
 		var settings = $this.data('digitalIdCard');
 
 		if(settings.isNewCard){
-	console.log("IN NEW CARD SAVE");
-			_showNewCardPopupFrame(callback);
+			_showNewCardPopupFrame.apply(this, callback);
 		}
 		else{
 	 		if(callback){
@@ -256,7 +256,7 @@ console.log(obj);
       }
     }
     else{
-        settings.isNewCard = true;
+   		settings.isNewCard = true;
     }
   }
 
@@ -707,19 +707,6 @@ console.log(obj);
 	}
 
 
-  function _showNewCardPopupFrame(callback){
-		_disableAcceptButton();
-
-		var proxyThis = this;
-		$('#id-card-popup-accept').click(function(e){
-			if(callback){
-				callback();
-			}
-			_hidePopup();
-		});
-  }
-
-
 	function _showPenSignaturePopup(){
 		$('#id-card-popup-content').empty();
 
@@ -727,6 +714,55 @@ console.log(obj);
 		$('#id-card-popup-content').append(cardIdPenSignature);
 		cardIdPenSignature.jSignature();
 	} 
+
+
+  function _showNewCardPopupFrame(callback){
+		_disableAcceptButton.apply(this);
+    _enableCloseOnlyPopup.apply(this);
+		_showNewCardPopup.apply(this);
+		_showCardPopup.apply(this);
+  }
+
+
+	function _showNewCardPopup(){
+		$('#id-card-popup-content').empty();
+
+		var welcomeText = _localizeString('new_card_welcome_text','Welcome to your new id card!');
+		var welcomeSubText = _localizeString('new_card_welcome_subtext','Your id file and private key file should beging donwload now.  If it does not start downloading:');
+		var clickHereText = _localizeString('new_card_click_here','Click Here');
+
+
+		var NewCardContent = '<div id="id-card-popup-new-card">';
+
+		NewCardContent += '<div id="id-card-popup-new-welcome-text" class="header1 center left-right-margin-10">' + welcomeText + '</div>';
+		NewCardContent += '<div id="id-card-popup-new-welcome-subtext" class="header2 center padding-top10 left-right-margin-10">' + welcomeSubText + '&nbsp;<span id="new-card-download-link" class="link">' + clickHereText +'</span></div>';
+
+		NewCardContent += '</div>';	// id-card-popup-new-card
+
+
+		$('#id-card-popup-content').append(NewCardContent);
+
+		var proxyThis = this;
+		$('#new-card-download-link').click(function(e){
+			_downloadNewCardFile.apply(proxyThis);
+		});
+
+
+/*
+		var cardIdPenSignature = $('<div id="id-card-popup-pen-signature"></div>');
+		$('#id-card-popup-content').append(cardIdPenSignature);
+		cardIdPenSignature.jSignature();
+	*/
+
+	} 
+
+	function _downloadNewCardFile(){
+		var envelopeText = _idToEnvelopeJsonText.apply(this);
+		var envelopeTextFile =  URL.createObjectURL(envelopeText);
+
+console.log('envelopeTextFile: ' + envelopeTextFile);
+
+	}
 
 
 	function _disableAcceptButton(){
