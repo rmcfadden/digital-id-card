@@ -65,7 +65,9 @@
       settings.includeRoot + 'crypto.js',
       settings.includeRoot + 'jSignature.min.js',
       settings.includeRoot + 'qrcode.js',
-      settings.includeRoot + 'jquery.qrcode.js'
+      settings.includeRoot + 'jquery.qrcode.js',
+      settings.includeRoot + 'jszip.min.js',
+      settings.includeRoot + 'FileSaver.js'
     ];
 
     _getMultiScripts(scripts, function(){
@@ -360,10 +362,42 @@ console.log(obj);
       settings.keys = _generateKeyPair();
     }
 
-    envelope.keys = settings.keys;    
+    envelope.keys = _getpublicKeyPortion.apply(this,settings.keys);    
 
     return envelope;
   }
+
+
+  function _getpublicKeyPortion(keys){
+  	if(!keys){
+  		return null;
+  	}
+
+  	var returnKeys = {};
+
+  	if(keys.algo){
+  		returnKeys.algo = keys.algo;
+  	}
+
+  	if(keys.algo){
+  		returnKeys.algo = keys.algo;
+  	}
+
+  	if(keys.subAlgo){
+  		returnKeys.subAlgo = keys.subAlgo;
+  	}
+
+  	if(keys.encoding){
+  		returnKeys.encoding = keys.encoding;
+  	}
+
+  	if(keys.publicKey){
+  		returnKeys.publicKey = keys.publicKey;
+  	}
+
+  	return returnKeys;
+  }
+
 
 
   function _generateKeyPair(){
@@ -758,10 +792,12 @@ console.log(obj);
 
 	function _downloadNewCardFile(){
 		var envelopeText = _idToEnvelopeJsonText.apply(this);
-		var envelopeTextFile =  URL.createObjectURL(envelopeText);
 
-console.log('envelopeTextFile: ' + envelopeTextFile);
+		var zip = new JSZip();
+		zip.file("Id.json", envelopeText);
 
+		var content = zip.generate({ type: "blob" });
+		saveAs(content, "IdCardAndKeyFile.zip");
 	}
 
 
